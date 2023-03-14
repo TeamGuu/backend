@@ -10,10 +10,11 @@ import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
     private static final String[] AUTH_WHITELIST = {
-            "/", "/user/**", "/swagger-ui/index.html", "/api"
+            "/swagger-ui/**",
+            "/api/**",
+            "/api-docs/**"
     };
 
     @Bean
@@ -30,9 +31,7 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated())
-
                 .csrf().disable().cors().disable()
-
                 .build();
     }
 }
