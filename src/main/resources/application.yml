@@ -1,0 +1,60 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/weakpoint?serverTimezone=Asia/Seoul
+    username: root
+    password: "004637"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    defer-datasource-initialization: true
+
+    security:
+      oauth2:
+        client:
+          registration:
+            kakao:
+              client-id: 4ab7b193bdd041a30446ede285a1f77a
+              client-secret: cjW924pToyagFaxJhQy5Ad3KKFpeEtrU
+              redirect-uri: http://localhost:8080/api/authorization_code
+              authorization-grant-type: authorization_code
+              client-authentication-method: GET
+              client-name: kakao
+              scope:
+                - profile_nickname
+                - profile_image
+                - account_email
+          provider:
+            kakao:
+              authorization-uri: https://kauth.kakao.com/oauth/authorize
+              token-uri: https://kauth.kakao.com/oauth/token
+              user-info-uri: https://kapi.kakao.com/v2/user/me
+              user-name-attribute: id
+
+logging:
+  level:
+    com.com.backend: DEBUG   # ?? ?? ??
+
+jwt:
+  header: Authorization
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+
+springdoc:
+  packages-to-scan : study.weakpoint
+  swagger-ui :
+    path : /api
+    tags-sorter : alpha
+    operations-sorter : alpha
+  api-docs :
+    path : /api-docs/json
+    groups :
+      enabled : true
+  cache :
+    disabled : true
+  default-consumes-media-type : application/json;charset=UTF-8
+  default-produces-media-type : application/json;charset=UTF-8
