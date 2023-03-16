@@ -1,4 +1,4 @@
-package practice.weakpoint.config;
+package practice.weakpoint.config.openapi;
 
 
 import io.swagger.v3.oas.models.Components;
