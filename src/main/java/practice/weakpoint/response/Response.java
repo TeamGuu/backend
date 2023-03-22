@@ -1,10 +1,11 @@
 package practice.weakpoint.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
@@ -13,12 +14,13 @@ import static org.springframework.http.HttpStatus.*;
 
 @JsonInclude(NON_NULL) //  null 값을 가지는 필드는, JSON 응답에 포함되지 않음
 @AllArgsConstructor(access = PRIVATE)
+@Data
 @Schema(description = "This is response from server.")
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
-@Getter
 public class Response {
 
-    private boolean isSuccess;
+    @JsonProperty("isSuccess")
+    private Boolean isSuccess;
     private int code;
     private String message;
     private Result result;
