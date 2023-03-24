@@ -9,7 +9,6 @@ import practice.weakpoint.exception.situation.MemberNotFoundException;
 import practice.weakpoint.repository.MemberRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class MemberService {
         List<Member> members = memberRepository.findAll();
         return members.stream()
                 .map(MemberSimpleResponseDto::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional(readOnly = true)

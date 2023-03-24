@@ -13,7 +13,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
 import static lombok.AccessLevel.*;
 import static org.springframework.http.HttpStatus.*;
 
-@JsonInclude(NON_NULL) //  null 값을 가지는 필드는, JSON 응답에 포함되지 않음
+@JsonInclude(NON_NULL)
 @AllArgsConstructor(access = PRIVATE)
 @Schema(description = "This is response message from server")
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
@@ -25,15 +25,15 @@ public class Response {
     private String message;
     private Object result;
 
-    public static Response success(String message) { // 4
+    public static Response success(String message) {
         return new Response(true, OK.value(), message, null);
     }
 
-    public static Response success(String message, Object data) { // 5
+    public static Response success(String message, Object data) {
         return new Response(true, OK.value(), message, data);
     }
 
-    public static Response failure(HttpStatus status, String message) { // 6
+    public static Response failure(HttpStatus status, String message) {
         return new Response(false, status.value(), message, null);
     }
 }

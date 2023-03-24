@@ -30,7 +30,7 @@ public class AuthController {
     @Operation(summary = "Sign Up API", description = "put your sign up info.")
     @ResponseStatus(CREATED)
     @PostMapping("/sign-up")
-    public Response register(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
+    public Response signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
         Member member = authService.signup(signUpRequestDto);
         return success(SUCCESS_TO_SIGN_UP);
     }
