@@ -14,7 +14,7 @@ spring:
 
 logging:
   level:
-    com.com.backend: DEBUG   # ?? ?? ??
+    practice.practice.weakpoint: DEBUG   # ?? ?? ??
 
 springdoc:
   packages-to-scan : practice.weakpoint
