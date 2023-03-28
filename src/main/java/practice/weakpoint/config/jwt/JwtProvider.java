@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-@PropertySource("classpath:jwt.properties")
 public class JwtProvider {
 
 
