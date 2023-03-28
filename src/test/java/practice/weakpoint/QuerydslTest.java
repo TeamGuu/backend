@@ -13,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import practice.weakpoint.domain.member.entity.Authority;
 import practice.weakpoint.domain.member.entity.Member;
-import practice.weakpoint.domain.member.QMember;
+import practice.weakpoint.domain.member.entity.QMember;
 
 import static org.assertj.core.api.Assertions.*;
 
