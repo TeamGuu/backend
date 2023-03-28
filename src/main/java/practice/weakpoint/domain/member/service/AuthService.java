@@ -1,4 +1,4 @@
-package practice.weakpoint.service;
+package practice.weakpoint.domain.member.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -8,15 +8,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import practice.weakpoint.config.jwt.JwtProvider;
-import practice.weakpoint.domain.member.Authority;
-import practice.weakpoint.domain.member.Member;
-import practice.weakpoint.domain.member.RefreshToken;
-import practice.weakpoint.dto.sign.*;
+import practice.weakpoint.domain.member.dto.sign.*;
+import practice.weakpoint.domain.member.entity.Authority;
+import practice.weakpoint.domain.member.entity.Member;
+import practice.weakpoint.domain.member.entity.RefreshToken;
 import practice.weakpoint.exception.situation.LoginFailureException;
 import practice.weakpoint.exception.situation.MemberNicknameAlreadyExistsException;
 import practice.weakpoint.exception.situation.UsernameAlreadyExistsException;
-import practice.weakpoint.repository.MemberRepository;
-import practice.weakpoint.repository.RefreshTokenRepository;
+import practice.weakpoint.domain.member.repository.MemberRepository;
+import practice.weakpoint.domain.member.repository.RefreshTokenRepository;
 
 @Service
 @RequiredArgsConstructor

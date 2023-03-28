@@ -1,4 +1,4 @@
-package practice.weakpoint.service;
+package practice.weakpoint.config.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

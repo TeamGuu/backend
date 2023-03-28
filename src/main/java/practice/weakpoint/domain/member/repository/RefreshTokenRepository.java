@@ -1,7 +1,7 @@
-package practice.weakpoint.repository;
+package practice.weakpoint.domain.member.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import practice.weakpoint.domain.member.RefreshToken;
+import practice.weakpoint.domain.member.entity.RefreshToken;
 
 import java.util.Optional;
 

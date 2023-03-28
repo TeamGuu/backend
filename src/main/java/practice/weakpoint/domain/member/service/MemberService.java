@@ -1,12 +1,12 @@
-package practice.weakpoint.service;
+package practice.weakpoint.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import practice.weakpoint.domain.member.Member;
-import practice.weakpoint.dto.member.MemberSimpleResponseDto;
+import practice.weakpoint.domain.member.entity.Member;
+import practice.weakpoint.domain.member.dto.MemberSimpleResponseDto;
 import practice.weakpoint.exception.situation.MemberNotFoundException;
-import practice.weakpoint.repository.MemberRepository;
+import practice.weakpoint.domain.member.repository.MemberRepository;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package practice.weakpoint.domain.member;
+package practice.weakpoint.domain.member.entity;
 
 public enum Authority {
     ROLE_USER,

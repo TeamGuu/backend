@@ -1,4 +1,4 @@
-package practice.weakpoint.service;
+package practice.weakpoint.config.security;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import practice.weakpoint.domain.member.Member;
-import practice.weakpoint.repository.MemberRepository;
+import practice.weakpoint.domain.member.entity.Member;
+import practice.weakpoint.domain.member.repository.MemberRepository;
 
 import java.util.Collections;
 

@@ -1,4 +1,4 @@
-package practice.weakpoint.dto.sign;
+package practice.weakpoint.domain.member.dto.sign;
 
 import lombok.*;
 

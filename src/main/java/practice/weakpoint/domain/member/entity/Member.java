@@ -1,4 +1,4 @@
-package practice.weakpoint.domain.member;
+package practice.weakpoint.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

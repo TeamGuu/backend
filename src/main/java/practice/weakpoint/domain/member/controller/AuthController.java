@@ -1,4 +1,4 @@
-package practice.weakpoint.controller;
+package practice.weakpoint.domain.member.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -6,12 +6,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import practice.weakpoint.domain.member.Member;
-import practice.weakpoint.dto.sign.LoginRequestDto;
-import practice.weakpoint.dto.sign.SignUpRequestDto;
-import practice.weakpoint.dto.sign.TokenRequestDto;
+import practice.weakpoint.domain.member.entity.Member;
+import practice.weakpoint.domain.member.dto.sign.LoginRequestDto;
+import practice.weakpoint.domain.member.dto.sign.SignUpRequestDto;
+import practice.weakpoint.domain.member.dto.sign.TokenRequestDto;
 import practice.weakpoint.response.Response;
-import practice.weakpoint.service.AuthService;
+import practice.weakpoint.domain.member.service.AuthService;
 
 import static org.springframework.http.HttpStatus.*;
 import static practice.weakpoint.response.Response.*;

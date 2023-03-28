@@ -11,8 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import practice.weakpoint.domain.member.Authority;
-import practice.weakpoint.domain.member.Member;
+import practice.weakpoint.domain.member.entity.Authority;
+import practice.weakpoint.domain.member.entity.Member;
 import practice.weakpoint.domain.member.QMember;
 
 import static org.assertj.core.api.Assertions.*;

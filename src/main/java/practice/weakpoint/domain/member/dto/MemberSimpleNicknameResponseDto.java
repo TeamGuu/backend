@@ -1,9 +1,9 @@
-package practice.weakpoint.dto.member;
+package practice.weakpoint.domain.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import practice.weakpoint.domain.member.Member;
+import practice.weakpoint.domain.member.entity.Member;
 
 @Data
 @AllArgsConstructor

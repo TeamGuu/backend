@@ -1,12 +1,12 @@
-package practice.weakpoint.dto.sign;
+package practice.weakpoint.domain.member.dto.sign;
 
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import practice.weakpoint.domain.member.Authority;
-import practice.weakpoint.domain.member.Member;
+import practice.weakpoint.domain.member.entity.Authority;
+import practice.weakpoint.domain.member.entity.Member;
 
 
 @AllArgsConstructor
