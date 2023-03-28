@@ -4,7 +4,6 @@ package practice.weakpoint.config.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -15,7 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import practice.weakpoint.dto.sign.TokenDto;
+import practice.weakpoint.domain.member.dto.sign.TokenDto;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-@PropertySource("classpath:secure.properties")
+@PropertySource("classpath:jwt.properties")
 public class JwtProvider {
 
 
