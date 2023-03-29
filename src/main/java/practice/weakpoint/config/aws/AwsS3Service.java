@@ -18,12 +18,12 @@ public class AwsS3Service {
 
     private final S3Template s3Template;
     @Value("${aws.bucket}")
-    private String bucket;
+    private final String BUCKET;
 
     public String uploadImage(MultipartFile image) throws IOException {
         String fileName = createFileName(image.getOriginalFilename());
         InputStream inputStream = image.getInputStream();
-        S3Resource s3Resource = s3Template.upload(bucket, fileName, inputStream,
+        S3Resource s3Resource = s3Template.upload(BUCKET, fileName, inputStream,
                 ObjectMetadata.builder().contentType(image.getContentType()).build());
         return s3Resource.getURL().toString();
     }
