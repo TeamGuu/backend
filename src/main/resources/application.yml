@@ -13,13 +13,13 @@ spring:
       host: localhost
       port: 6379
 
-  cloud:
-    aws:
-      region:
-        static: ${aws.region}
-      credentials:
-        access-key: ${aws.access-key}
-        secret-key: ${aws.secret-key}
+#  cloud:
+#    aws:
+#      region:
+#        static: ${aws.region}
+#      credentials:
+#        access-key: ${aws.access-key}
+#        secret-key: ${aws.secret-key}
 
 jwt:
   secret: ${jwt.secret-key}

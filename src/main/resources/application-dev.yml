@@ -1,26 +1,26 @@
 spring:
 
   datasource:
-    url: ${db.local.url}
-    username: ${db.local.username}
-    password: ${db.local.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/teamguu
+    username: teamguu
+    password: 1234
 
   jpa:
     open-in-view: false
-    show_sql: true
+    show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
-        use_sql_comments: true
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
 
 logging:
   level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: trace
+    root: INFO
+
 

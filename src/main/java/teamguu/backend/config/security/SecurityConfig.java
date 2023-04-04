@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                 .shouldFilterAllDispatcherTypes(false)
-                .requestMatchers(AUTH_WHITELIST)
+                .antMatchers(AUTH_WHITELIST)
                 .permitAll()
                 .anyRequest()
                 .authenticated())
