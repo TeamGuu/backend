@@ -41,7 +41,4 @@ public class Member extends EntityDateInfo {
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
-
-    private String nickname;
-    private String name;
 }

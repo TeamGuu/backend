@@ -119,11 +119,6 @@ public class ExceptionAdvice {
         return failure(CONFLICT, e.getMessage() + "은 중복된 아이디 입니다.");
     }
 
-    // 409 응답
-    // nickname 중복
-    @ExceptionHandler(MemberNicknameAlreadyExistsException.class)
-    @ResponseStatus(CONFLICT)
-    public Response memberNicknameAlreadyExistsException(MemberNicknameAlreadyExistsException e) {
-        return failure(CONFLICT, e.getMessage() + "은 중복된 닉네임 입니다.");
-    }
+
+
 }
