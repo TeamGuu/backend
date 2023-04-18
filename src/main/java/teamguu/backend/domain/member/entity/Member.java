@@ -25,7 +25,6 @@ public class Member extends EntityDateInfo {
     @OneToMany(mappedBy = "captain", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Team> teams = new ArrayList<>();
     private String username;
-    @JsonIgnore
     private String password;
     private String name;
     private String phone;
