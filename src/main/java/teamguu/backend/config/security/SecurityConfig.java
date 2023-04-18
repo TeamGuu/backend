@@ -52,10 +52,6 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
-                .logout()
-                .logoutUrl("/api/auth/sign-out")
-
-                .and()
                 .authorizeHttpRequests(authorize -> authorize
                 .shouldFilterAllDispatcherTypes(false)
                 .antMatchers(AUTH_WHITELIST)

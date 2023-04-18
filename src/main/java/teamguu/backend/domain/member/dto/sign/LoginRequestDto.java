@@ -1,12 +1,12 @@
 package teamguu.backend.domain.member.dto.sign;
 
 
-import javax.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import teamguu.backend.domain.member.entity.Authority;
-import teamguu.backend.domain.member.entity.Member;
+
+import javax.validation.constraints.NotBlank;
 
 
 @AllArgsConstructor

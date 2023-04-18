@@ -54,8 +54,8 @@ public class AuthService {
     }
 
     @Transactional
-    public void signOut(String accessToken) {
-        Authentication authentication = jwtProvider.getAuthentication(accessToken);
+    public void signOut(LogoutRequestDto logoutRequestDto) {
+        Authentication authentication = jwtProvider.getAuthentication(logoutRequestDto.getAccessToken());
         redisService.deleteValues("RT: " + authentication.getName());
     }
 
@@ -76,16 +76,16 @@ public class AuthService {
     }
 
     private void validateSignUpInfo(ValidateSignUpRequestDto validateSignUpRequestDto) {
-        if (memberRepository.existsByEmail(validateSignUpRequestDto.getUsername())) {
+        if (memberRepository.existsByUsername(validateSignUpRequestDto.getUsername())) {
             throw new UsernameAlreadyExistsException(validateSignUpRequestDto.getUsername());
         }
     }
 
     private Member createSignupFormOfUser(SignUpRequestDto req) {
         return Member.builder()
-                .email(req.getUsername())
+                .username(req.getUsername())
                 .password(passwordEncoder.encode(req.getPassword()))
-                .username(req.getName())
+                .name(req.getName())
                 .phone(req.getPhone())
                 .birth(req.getBirth())
                 .authority(Authority.ROLE_USER)
@@ -93,7 +93,7 @@ public class AuthService {
     }
 
     private Member validateExistsByUsername(LoginRequestDto req) {
-        return memberRepository.findByEmail(req.getUsername()).orElseThrow(() -> {
+        return memberRepository.findByUsername(req.getUsername()).orElseThrow(() -> {
             throw new LoginFailureException();
         });
     }

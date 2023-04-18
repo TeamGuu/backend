@@ -7,7 +7,7 @@ import teamguu.backend.domain.member.entity.Member;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    Optional<Member> findByEmail(String username);
+    Optional<Member> findByUsername(String username);
 
-    public boolean existsByEmail(String username);
+    public boolean existsByUsername(String username);
 }

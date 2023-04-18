@@ -6,11 +6,8 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import teamguu.backend.domain.member.dto.sign.ValidateSignUpRequestDto;
+import teamguu.backend.domain.member.dto.sign.*;
 import teamguu.backend.domain.member.entity.Member;
-import teamguu.backend.domain.member.dto.sign.LoginRequestDto;
-import teamguu.backend.domain.member.dto.sign.SignUpRequestDto;
-import teamguu.backend.domain.member.dto.sign.TokenRequestDto;
 import teamguu.backend.response.Response;
 import teamguu.backend.domain.member.service.AuthService;
 
@@ -54,8 +51,8 @@ public class AuthController {
     @Operation(summary = "Sign Out API", description = "put your sign out info")
     @PostMapping("/sign-out")
     @ResponseStatus(OK)
-    public Response signOut(@RequestBody String accessToken) {
-        authService.signOut(accessToken);
+    public Response signOut(@RequestBody LogoutRequestDto logoutRequestDto) {
+        authService.signOut(logoutRequestDto);
         return success(SUCCESS_TO_SIGN_OUT);
     }
 
@@ -65,7 +62,6 @@ public class AuthController {
     public Response reissue(@RequestBody TokenRequestDto tokenRequestDto) {
         return success(SUCCESS_TO_REISSUE, authService.reissue(tokenRequestDto));
     }
-
 
 
 }
