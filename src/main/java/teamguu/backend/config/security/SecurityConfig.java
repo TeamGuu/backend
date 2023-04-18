@@ -26,7 +26,7 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private static final String[] AUTH_WHITELIST = {
             "/swagger-ui/**",
-            "/api/**",
+            "/api/auth/**",
             "/api-docs/**"
     };
 
