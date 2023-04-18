@@ -119,6 +119,13 @@ public class ExceptionAdvice {
         return failure(CONFLICT, e.getMessage() + "은 중복된 아이디 입니다.");
     }
 
+    // 409 응답
+    // team name 중복
+    @ExceptionHandler(TeamNameAlreadyExistsException.class)
+    @ResponseStatus(CONFLICT)
+    public Response teamNameAlreadyExistsException(TeamNameAlreadyExistsException e) {
+        return failure(CONFLICT, e.getMessage() + "은 중복된 팀 이름 입니다.");
+    }
 
 
 }

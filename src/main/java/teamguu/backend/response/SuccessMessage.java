@@ -10,5 +10,7 @@ public class SuccessMessage {
     public static final String SUCCESS_TO_SIGN_IN = "로그인에 성공했습니다";
     public static final String SUCCESS_TO_SIGN_OUT = "로그아웃에 성공했습니다";
     public static final String SUCCESS_TO_REISSUE = "토큰 재발급에 성공했습니다";
+    public static final String SUCCESS_TO_CREATE_TEAM = "팀 생성에 성공했습니다";
+
 
 }
