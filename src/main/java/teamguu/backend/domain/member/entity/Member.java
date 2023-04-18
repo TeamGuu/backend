@@ -22,26 +22,15 @@ public class Member extends EntityDateInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
-
     @OneToMany(mappedBy = "captain", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Team> teams = new ArrayList<>();
-
-    private String email;
-
-    @JsonIgnore
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false, unique = true)
     private String username;
-
+    @JsonIgnore
+    private String password;
+    private String name;
     private String phone;
     private String birth;
     private String profileImageUrl;
-
     @Enumerated(EnumType.STRING)
     private Authority authority;
-
-    private String nickname;
-    private String name;
 }

@@ -1,31 +1,23 @@
 package teamguu.backend.domain.member.dto.sign;
 
 
-import javax.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import teamguu.backend.domain.member.entity.Authority;
-import teamguu.backend.domain.member.entity.Member;
+
+import javax.validation.constraints.NotBlank;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class LoginRequestDto {
-    @NotBlank(message = "{LoginRequestDto.username.notBlank}")
+    @NotBlank(message = "아이디를 입력해주세요.")
     private String username;
 
-    @NotBlank(message = "{LoginRequestDto.password.notBlank}")
+    @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
-
-    public Member toMember(PasswordEncoder passwordEncoder) {
-        return Member.builder()
-                .username(username)
-                .password(passwordEncoder.encode(password))
-                .authority(Authority.ROLE_USER)
-                .build();
-    }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(username, password);

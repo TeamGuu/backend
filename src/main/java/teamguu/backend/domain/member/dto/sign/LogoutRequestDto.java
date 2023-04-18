@@ -2,10 +2,12 @@ package teamguu.backend.domain.member.dto.sign;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
-public class SignInResponseDto {
+@NoArgsConstructor
+@Data
+public class LogoutRequestDto {
+
     private String accessToken;
-    private String refreshToken;
 }

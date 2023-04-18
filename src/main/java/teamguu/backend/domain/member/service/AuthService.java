@@ -1,22 +1,23 @@
 package teamguu.backend.domain.member.service;
 
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import teamguu.backend.config.jwt.JwtProvider;
+import teamguu.backend.config.redis.RedisService;
 import teamguu.backend.domain.member.dto.sign.*;
 import teamguu.backend.domain.member.entity.Authority;
 import teamguu.backend.domain.member.entity.Member;
-import teamguu.backend.domain.member.entity.RefreshToken;
-import teamguu.backend.exception.situation.LoginFailureException;
-import teamguu.backend.exception.situation.MemberNicknameAlreadyExistsException;
-import teamguu.backend.exception.situation.UsernameAlreadyExistsException;
 import teamguu.backend.domain.member.repository.MemberRepository;
-import teamguu.backend.domain.member.repository.RefreshTokenRepository;
+import teamguu.backend.exception.situation.LoginFailureException;
+import teamguu.backend.exception.situation.UsernameAlreadyExistsException;
+
+import javax.transaction.Transactional;
+import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +26,16 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final RedisService redisService;
     private final JwtProvider jwtProvider;
 
     @Transactional
-    public Member signup(SignUpRequestDto req) {
-        validateSignUpInfo(req);
+    public void duplicateValidate(ValidateSignUpRequestDto validateSignUpRequestDto) {
+        validateSignUpInfo(validateSignUpRequestDto);
+    }
+
+    @Transactional
+    public Member signUp(SignUpRequestDto req) {
         Member member = createSignupFormOfUser(req);
         memberRepository.save(member);
         return member;
@@ -38,38 +43,20 @@ public class AuthService {
 
     @Transactional
     public TokenResponseDto signIn(LoginRequestDto req) {
-        Member member = memberRepository.findByUsername(req.getUsername()).orElseThrow(() -> {
-            throw new LoginFailureException();
-        });
-
+        Member member = validateExistsByUsername(req);
         validatePassword(req, member);
+
         Authentication authentication = getUserAuthentication(req);
         TokenDto tokenDto = jwtProvider.generateTokenDto(authentication);
-        RefreshToken refreshToken = buildRefreshToken(authentication, tokenDto);
-        refreshTokenRepository.save(refreshToken);
+        Duration duration = Duration.ofMillis(tokenDto.getRefreshTokenExpiresIn());
+        redisService.setValues("RT: " + authentication.getName(), tokenDto.getRefreshToken(), duration);
         return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
     }
 
-    private RefreshToken buildRefreshToken(Authentication authentication, TokenDto tokenDto) {
-        return RefreshToken.builder()
-                .key(authentication.getName())
-                .value(tokenDto.getRefreshToken())
-                .build();
-    }
-
-    private Authentication getUserAuthentication(LoginRequestDto req) {
-        UsernamePasswordAuthenticationToken authenticationToken = req.toAuthentication();
-        return authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-    }
-
-    private Member createSignupFormOfUser(SignUpRequestDto req) {
-        return Member.builder()
-                .username(req.getUsername())
-                .password(passwordEncoder.encode(req.getPassword()))
-                .nickname(req.getNickname())
-                .name(req.getName())
-                .authority(Authority.ROLE_USER)
-                .build();
+    @Transactional
+    public void signOut(LogoutRequestDto logoutRequestDto) {
+        Authentication authentication = jwtProvider.getAuthentication(logoutRequestDto.getAccessToken());
+        redisService.deleteValues("RT: " + authentication.getName());
     }
 
     @Transactional
@@ -77,24 +64,38 @@ public class AuthService {
         validateRefreshToken(tokenRequestDto);
 
         Authentication authentication = jwtProvider.getAuthentication(tokenRequestDto.getAccessToken());
-        RefreshToken refreshToken = refreshTokenRepository.findByKey(authentication.getName())
-                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
-        validateRefreshTokenOwner(refreshToken, tokenRequestDto);
+
+        validateExistsByRefreshToken(authentication);
+        validateRefreshTokenOwner(authentication, tokenRequestDto);
 
         TokenDto tokenDto = jwtProvider.generateTokenDto(authentication);
-        RefreshToken newRefreshToken = refreshToken.updateValue(tokenDto.getRefreshToken());
-        refreshTokenRepository.save(newRefreshToken);
+        Duration duration = Duration.ofMillis(tokenDto.getRefreshTokenExpiresIn());
+        redisService.setValues("RT: " + authentication.getName(), tokenDto.getRefreshToken(), duration);
 
         return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
     }
 
-    private void validateSignUpInfo(SignUpRequestDto signUpRequestDto) {
-        if (memberRepository.existsByUsername(signUpRequestDto.getUsername())) {
-            throw new UsernameAlreadyExistsException(signUpRequestDto.getUsername());
+    private void validateSignUpInfo(ValidateSignUpRequestDto validateSignUpRequestDto) {
+        if (memberRepository.existsByUsername(validateSignUpRequestDto.getUsername())) {
+            throw new UsernameAlreadyExistsException(validateSignUpRequestDto.getUsername());
         }
-        if (memberRepository.existsByNickname(signUpRequestDto.getNickname())) {
-            throw new MemberNicknameAlreadyExistsException(signUpRequestDto.getNickname());
-        }
+    }
+
+    private Member createSignupFormOfUser(SignUpRequestDto req) {
+        return Member.builder()
+                .username(req.getUsername())
+                .password(passwordEncoder.encode(req.getPassword()))
+                .name(req.getName())
+                .phone(req.getPhone())
+                .birth(req.getBirth())
+                .authority(Authority.ROLE_USER)
+                .build();
+    }
+
+    private Member validateExistsByUsername(LoginRequestDto req) {
+        return memberRepository.findByUsername(req.getUsername()).orElseThrow(() -> {
+            throw new LoginFailureException();
+        });
     }
 
     private void validatePassword(LoginRequestDto loginRequestDto, Member member) {
@@ -103,14 +104,26 @@ public class AuthService {
         }
     }
 
+    private Authentication getUserAuthentication(LoginRequestDto req) {
+        UsernamePasswordAuthenticationToken authenticationToken = req.toAuthentication();
+        return authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+    }
+
     private void validateRefreshToken(TokenRequestDto tokenRequestDto) {
         if (!jwtProvider.validateToken(tokenRequestDto.getRefreshToken())) {
             throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
         }
     }
 
-    private void validateRefreshTokenOwner(RefreshToken refreshToken, TokenRequestDto tokenRequestDto) {
-        if (!refreshToken.getValue().equals(tokenRequestDto.getRefreshToken())) {
+    private void validateExistsByRefreshToken(Authentication authentication) {
+        String refreshToken = redisService.getValues("RT:" + authentication.getName());
+        if (!StringUtils.hasText(refreshToken)) {
+            throw new RuntimeException("로그아웃된 사용자입니다.");
+        }
+    }
+
+    private void validateRefreshTokenOwner(Authentication authentication, TokenRequestDto tokenRequestDto) {
+        if (!redisService.getValues("RT: " + authentication.getName()).equals(tokenRequestDto.getRefreshToken())) {
             throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
         }
     }
