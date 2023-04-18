@@ -54,9 +54,8 @@ public class AuthService {
     }
 
     @Transactional
-    public void signOut(LogoutRequestDto logoutRequestDto) {
-        Authentication authentication = jwtProvider.getAuthentication(logoutRequestDto.getAccessToken());
-        redisService.deleteValues("RT: " + authentication.getName());
+    public void logout(Member member) {
+        redisService.deleteValues("RT: " + member.getUsername());
     }
 
     @Transactional
@@ -116,7 +115,7 @@ public class AuthService {
     }
 
     private void validateExistsByRefreshToken(Authentication authentication) {
-        String refreshToken = redisService.getValues("RT:" + authentication.getName());
+        String refreshToken = redisService.getValues("RT: " + authentication.getName());
         if (!StringUtils.hasText(refreshToken)) {
             throw new RuntimeException("로그아웃된 사용자입니다.");
         }
