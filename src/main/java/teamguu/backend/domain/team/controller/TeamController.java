@@ -1,14 +1,10 @@
 package teamguu.backend.domain.team.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import teamguu.backend.domain.member.dto.sign.ValidateSignUpRequestDto;
-import teamguu.backend.domain.member.entity.Member;
-import teamguu.backend.domain.member.service.AuthService;
 import teamguu.backend.domain.member.service.MemberService;
 import teamguu.backend.domain.team.dto.CreateTeamRequestDto;
 import teamguu.backend.domain.team.service.TeamService;
@@ -19,7 +15,7 @@ import javax.validation.Valid;
 import static org.springframework.http.HttpStatus.OK;
 import static teamguu.backend.response.Response.success;
 import static teamguu.backend.response.SuccessMessage.SUCCESS_TO_CREATE_TEAM;
-import static teamguu.backend.response.SuccessMessage.SUCCESS_TO_VALIDATE_DUPLICATE;
+import static teamguu.backend.response.SuccessMessage.SUCCESS_TO_GET_TEAM_INFO;
 
 @Slf4j
 @RestController
@@ -31,12 +27,25 @@ public class TeamController {
     private final TeamService teamService;
     private final MemberService memberService;
 
-    @Operation(summary = "Create Team API", description = "put your team info to create")
+    @Operation(summary = "Create team API", description = "put your team info to create")
     @ResponseStatus(OK)
     @PostMapping("")
     public Response createTeam(@Valid @RequestBody CreateTeamRequestDto createTeamRequestDto) {
-        Member currentMember = memberService.getCurrentUser();
-        teamService.createTeam(createTeamRequestDto, currentMember);
+        teamService.createTeam(createTeamRequestDto, memberService.getCurrentMember());
         return success(SUCCESS_TO_CREATE_TEAM);
+    }
+
+    @Operation(summary = "Get team info API", description = "put team id what you want")
+    @ResponseStatus(OK)
+    @GetMapping("")
+    public Response getTeamInfo(Long teamId) {
+        return success(SUCCESS_TO_GET_TEAM_INFO, teamService.getTeamInfo(teamId));
+    }
+
+    @Operation(summary = "Get simple team info list API", description = "put your team info to create")
+    @ResponseStatus(OK)
+    @GetMapping("/simple")
+    public Response getSimpleTeamInfoList() {
+        return success(SUCCESS_TO_GET_TEAM_INFO, teamService.getSimpleTeamInfoList(memberService.getCurrentMember().getId()));
     }
 }
