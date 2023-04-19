@@ -127,5 +127,13 @@ public class ExceptionAdvice {
         return failure(CONFLICT, e.getMessage() + "은 중복된 팀 이름 입니다.");
     }
 
+    // 404 응답
+    // 요청한 팀을 찾을 수 없음
+    @ExceptionHandler(TeamNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public Response teamNotFoundException(TeamNotFoundException e) {
+        return failure(NOT_FOUND, "요청한 팀을 찾을 수 없습니다.");
+    }
+
 
 }
