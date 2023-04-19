@@ -44,4 +44,11 @@ public class TeamService {
                 .collect(toList());
     }
 
+    @Transactional
+    public void deleteTeam(Long teamId) {
+        teamRepository.delete(teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new));
+    }
+
+
+
 }

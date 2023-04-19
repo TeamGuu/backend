@@ -12,6 +12,8 @@ public class SuccessMessage {
     public static final String SUCCESS_TO_REISSUE = "토큰 재발급에 성공했습니다";
     public static final String SUCCESS_TO_CREATE_TEAM = "팀 생성에 성공했습니다";
     public static final String SUCCESS_TO_GET_TEAM_INFO = "팀 정보를 가져오는데 성공했습니다.";
+    public static final String SUCCESS_TO_DELETE_TEAM = "팀을 삭제하는데 성공했습니다.";
+
 
 
 

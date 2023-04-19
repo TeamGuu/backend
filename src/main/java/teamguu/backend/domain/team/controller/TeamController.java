@@ -14,8 +14,7 @@ import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.OK;
 import static teamguu.backend.response.Response.success;
-import static teamguu.backend.response.SuccessMessage.SUCCESS_TO_CREATE_TEAM;
-import static teamguu.backend.response.SuccessMessage.SUCCESS_TO_GET_TEAM_INFO;
+import static teamguu.backend.response.SuccessMessage.*;
 
 @Slf4j
 @RestController
@@ -35,17 +34,25 @@ public class TeamController {
         return success(SUCCESS_TO_CREATE_TEAM);
     }
 
-    @Operation(summary = "Get team info API", description = "put team id what you want")
+    @Operation(summary = "Get team info API", description = "put team id what you want to see")
     @ResponseStatus(OK)
     @GetMapping("")
     public Response getTeamInfo(Long teamId) {
         return success(SUCCESS_TO_GET_TEAM_INFO, teamService.getTeamInfo(teamId));
     }
 
-    @Operation(summary = "Get simple team info list API", description = "put your team info to create")
+    @Operation(summary = "Get simple team info list API", description = "just send request")
     @ResponseStatus(OK)
     @GetMapping("/simple")
     public Response getSimpleTeamInfoList() {
         return success(SUCCESS_TO_GET_TEAM_INFO, teamService.getSimpleTeamInfoList(memberService.getCurrentMember().getId()));
+    }
+
+    @Operation(summary = "Delete team API", description = "put team id what you want to delete")
+    @ResponseStatus(OK)
+    @DeleteMapping("")
+    public Response deleteTeam(Long teamId) {
+        teamService.deleteTeam(teamId);
+        return success(SUCCESS_TO_DELETE_TEAM);
     }
 }
