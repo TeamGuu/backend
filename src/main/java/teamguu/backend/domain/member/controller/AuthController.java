@@ -61,8 +61,8 @@ public class AuthController {
     @PostMapping("/logout")
     @ResponseStatus(OK)
     public Response logout() {
-        Member member = memberService.getPrincipal();
-        authService.logout(member);
+        Member currentMember = memberService.getCurrentMember();
+        authService.logout(currentMember);
         return success(SUCCESS_TO_SIGN_OUT);
     }
 
