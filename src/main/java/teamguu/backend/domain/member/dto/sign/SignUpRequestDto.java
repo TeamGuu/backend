@@ -27,7 +27,7 @@ public class SignUpRequestDto {
 
     @NotBlank(message = "사용자 이름을 입력해주세요.")
     @Size(min = 2, message = "사용자 이름이 너무 짧습니다.")
-    @Schema(description = "이름", defaultValue = "테스트")
+    @Schema(description = "이름", defaultValue = "홍길동")
     private String name;
 
     @NotBlank(message = "휴대폰 번호를 입력해주세요.")

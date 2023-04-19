@@ -38,6 +38,7 @@ public class CreateTeamRequestDto {
                 .history(this.history)
                 .intro(this.intro)
                 .playerInfo(this.playerInfo)
+                .logoImageUrl("nothing")
                 .defeat(0)
                 .draw(0)
                 .victory(0)
