@@ -14,11 +14,10 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-
-
     public Member getCurrentMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return memberRepository.findByUsername(authentication.getName())
                 .orElseThrow(MemberNotFoundException::new);
     }
+
 }
