@@ -35,10 +35,9 @@ public class MemberService {
 
     /*이 아래부턴 진영*/
 
-    public Member getCurrentUser() {
+    public Member getCurrentMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-        return memberRepository.findByUsername(springSecurityUser.getUsername()).orElseThrow(MemberNotFoundException::new);
+        return memberRepository.findByUsername(authentication.getName()).orElseThrow(MemberNotFoundException::new);
     }
 
 }
