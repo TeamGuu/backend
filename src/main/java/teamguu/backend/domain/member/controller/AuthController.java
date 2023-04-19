@@ -4,8 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import teamguu.backend.domain.member.dto.sign.LoginRequestDto;
 import teamguu.backend.domain.member.dto.sign.SignUpRequestDto;
@@ -14,7 +12,7 @@ import teamguu.backend.domain.member.dto.sign.ValidateSignUpRequestDto;
 import teamguu.backend.domain.member.entity.Member;
 import teamguu.backend.domain.member.repository.MemberRepository;
 import teamguu.backend.domain.member.service.AuthService;
-import teamguu.backend.exception.situation.MemberNotFoundException;
+import teamguu.backend.domain.member.service.MemberService;
 import teamguu.backend.response.Response;
 
 import javax.validation.Valid;
@@ -33,6 +31,7 @@ import static teamguu.backend.response.SuccessMessage.*;
 public class AuthController {
 
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final AuthService authService;
 
     @Operation(summary = "Validate Duplicate API", description = "put your validate duplicate info")
@@ -62,7 +61,7 @@ public class AuthController {
     @PostMapping("/logout")
     @ResponseStatus(OK)
     public Response logout() {
-        Member member = getPrincipal();
+        Member member = memberService.getPrincipal();
         authService.logout(member);
         return success(SUCCESS_TO_SIGN_OUT);
     }
@@ -74,11 +73,6 @@ public class AuthController {
         return success(SUCCESS_TO_REISSUE, authService.reissue(tokenRequestDto));
     }
 
-    private Member getPrincipal() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return memberRepository.findByUsername(authentication.getName())
-                .orElseThrow(MemberNotFoundException::new);
-    }
 
 
 }
