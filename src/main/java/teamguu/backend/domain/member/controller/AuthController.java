@@ -2,17 +2,24 @@ package teamguu.backend.domain.member.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import teamguu.backend.domain.member.dto.sign.*;
+import teamguu.backend.domain.member.dto.sign.LoginRequestDto;
+import teamguu.backend.domain.member.dto.sign.SignUpRequestDto;
+import teamguu.backend.domain.member.dto.sign.TokenRequestDto;
+import teamguu.backend.domain.member.dto.sign.ValidateSignUpRequestDto;
 import teamguu.backend.domain.member.entity.Member;
-import teamguu.backend.response.Response;
+import teamguu.backend.domain.member.repository.MemberRepository;
 import teamguu.backend.domain.member.service.AuthService;
+import teamguu.backend.domain.member.service.MemberService;
+import teamguu.backend.response.Response;
 
-import static org.springframework.http.HttpStatus.*;
-import static teamguu.backend.response.Response.*;
+import javax.validation.Valid;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+import static teamguu.backend.response.Response.success;
 import static teamguu.backend.response.SuccessMessage.*;
 
 
@@ -23,6 +30,8 @@ import static teamguu.backend.response.SuccessMessage.*;
 @Tag(name = "Auth", description = "Auth API Document")
 public class AuthController {
 
+    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final AuthService authService;
 
     @Operation(summary = "Validate Duplicate API", description = "put your validate duplicate info")
@@ -48,11 +57,12 @@ public class AuthController {
         return success(SUCCESS_TO_SIGN_IN, authService.signIn(req));
     }
 
-    @Operation(summary = "Sign Out API", description = "put your sign out info")
-    @PostMapping("/sign-out")
+    @Operation(summary = "logout API", description = "this is logout")
+    @PostMapping("/logout")
     @ResponseStatus(OK)
-    public Response signOut(@RequestBody LogoutRequestDto logoutRequestDto) {
-        authService.signOut(logoutRequestDto);
+    public Response logout() {
+        Member currentMember = memberService.getCurrentMember();
+        authService.logout(currentMember);
         return success(SUCCESS_TO_SIGN_OUT);
     }
 
@@ -62,6 +72,7 @@ public class AuthController {
     public Response reissue(@RequestBody TokenRequestDto tokenRequestDto) {
         return success(SUCCESS_TO_REISSUE, authService.reissue(tokenRequestDto));
     }
+
 
 
 }
