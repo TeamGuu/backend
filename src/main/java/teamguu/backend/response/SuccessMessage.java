@@ -13,8 +13,6 @@ public class SuccessMessage {
     public static final String SUCCESS_TO_CREATE_TEAM = "팀 생성에 성공했습니다";
     public static final String SUCCESS_TO_GET_TEAM_INFO = "팀 정보를 가져오는데 성공했습니다.";
     public static final String SUCCESS_TO_DELETE_TEAM = "팀을 삭제하는데 성공했습니다.";
-
-
-
+    public static final String SUCCESS_TO_CHANGE_TEAM_LOGO_IMAGE = "팀 로고 이미지를 변경 하는데 성공했습니다.";
 
 }

@@ -135,5 +135,13 @@ public class ExceptionAdvice {
         return failure(NOT_FOUND, "요청한 팀을 찾을 수 없습니다.");
     }
 
+    // 404 응답
+    // 파일이 비어있음
+    @ExceptionHandler(EmptyFileException.class)
+    @ResponseStatus(NOT_FOUND)
+    public Response emptyFileException(EmptyFileException e) {
+        return failure(NOT_FOUND, "파일이 비어있습니다.");
+    }
+
 
 }
