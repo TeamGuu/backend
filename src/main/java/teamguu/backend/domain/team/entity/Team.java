@@ -56,4 +56,10 @@ public class Team extends EntityDateInfo {
     private int victory;
     private int draw;
     private int defeat;
+
+    public String changeLogoImageUrl(String logoImageUrl) {
+        this.logoImageUrl = logoImageUrl;
+        return this.logoImageUrl;
+    }
+
 }

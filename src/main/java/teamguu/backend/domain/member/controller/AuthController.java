@@ -30,7 +30,6 @@ import static teamguu.backend.response.SuccessMessage.*;
 @Tag(name = "Auth", description = "Auth API Document")
 public class AuthController {
 
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final AuthService authService;
 
