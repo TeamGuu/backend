@@ -30,7 +30,6 @@ public class CreateTeamRequestDto {
     private String playerInfo;
 
     public Team toEntity(Member captain) {
-
         return Team.builder()
                 .name(this.name)
                 .captain(captain)
