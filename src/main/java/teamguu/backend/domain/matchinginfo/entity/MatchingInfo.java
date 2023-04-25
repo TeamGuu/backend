@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamguu.backend.domain.EntityDateInfo;
+import teamguu.backend.domain.team.entity.Sports;
 import teamguu.backend.domain.team.entity.Team;
 
 import javax.persistence.*;
@@ -25,6 +26,9 @@ public class MatchingInfo extends EntityDateInfo {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @Enumerated(EnumType.STRING)
+    private Sports sports;
+
     private String place;
 
     private String date;
@@ -35,4 +39,8 @@ public class MatchingInfo extends EntityDateInfo {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public void changeStatusToComplete() {
+        this.status = Status.COMPLETE;
+    }
 }

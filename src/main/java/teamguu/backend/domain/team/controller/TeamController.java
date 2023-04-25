@@ -49,26 +49,26 @@ public class TeamController {
         return success(SUCCESS_TO_GET_TEAM_INFO, teamService.getSimpleTeamInfoList(memberService.getCurrentMember().getId()));
     }
 
-    @Operation(summary = "Delete team API", description = "put team id what you want to delete")
-    @ResponseStatus(OK)
-    @DeleteMapping("")
-    public Response deleteTeam(Long teamId) {
-        teamService.deleteTeam(teamId);
-        return success(SUCCESS_TO_DELETE_TEAM);
-    }
+//    @Operation(summary = "Delete team API", description = "put team id what you want to delete")
+//    @ResponseStatus(OK)
+//    @DeleteMapping("")
+//    public Response deleteTeam(Long teamId) {
+//        teamService.deleteTeam(teamId);
+//        return success(SUCCESS_TO_DELETE_TEAM);
+//    }
 
-    @Operation(summary = "Change team logo image to new API", description = "put logo image and team ID what you want to change")
-    @ResponseStatus(OK)
-    @PostMapping("/logo-image-new")
-    public Response changeLogoImageToNew(@RequestPart MultipartFile logoImage, Long teamId) {
-        return success(SUCCESS_TO_CHANGE_TEAM_LOGO_IMAGE, teamService.changeLogoImageToNew(logoImage, teamId));
-    }
+//    @Operation(summary = "Change team logo image to new API", description = "put logo image and team ID what you want to change")
+//    @ResponseStatus(OK)
+//    @PostMapping("/logo-image-new")
+//    public Response changeLogoImageToNew(@RequestPart MultipartFile logoImage, Long teamId) {
+//        return success(SUCCESS_TO_CHANGE_TEAM_LOGO_IMAGE, teamService.changeLogoImageToNew(logoImage, teamId));
+//    }
 
-    @Operation(summary = "Change team logo image to basic API", description = "put team ID what you want to change")
-    @ResponseStatus(OK)
-    @PostMapping("/logo-image-basic")
-    public Response changeLogoImageToBasic(Long teamId) {
-        teamService.changeLogoImageToBasic(teamId);
-        return success(SUCCESS_TO_CHANGE_TEAM_LOGO_IMAGE);
-    }
+//    @Operation(summary = "Change team logo image to basic API", description = "put team ID what you want to change")
+//    @ResponseStatus(OK)
+//    @PostMapping("/logo-image-basic")
+//    public Response changeLogoImageToBasic(Long teamId) {
+//        teamService.changeLogoImageToBasic(teamId);
+//        return success(SUCCESS_TO_CHANGE_TEAM_LOGO_IMAGE);
+//    }
 }
