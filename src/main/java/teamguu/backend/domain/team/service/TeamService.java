@@ -3,8 +3,8 @@ package teamguu.backend.domain.team.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-import teamguu.backend.config.aws.AmazonS3Service;
+//import org.springframework.web.multipart.MultipartFile;
+//import teamguu.backend.config.aws.AmazonS3Service;
 import teamguu.backend.domain.member.entity.Member;
 import teamguu.backend.domain.team.dto.CreateTeamRequestDto;
 import teamguu.backend.domain.team.dto.SimpleTeamInfoResponseDto;
@@ -24,7 +24,7 @@ import static java.util.stream.Collectors.toList;
 public class TeamService {
 
     private final TeamRepository teamRepository;
-    private final AmazonS3Service amazonS3Service;
+//    private final AmazonS3Service amazonS3Service;
 
     //TODO 팀 인원의 평균나이를 구해주는 method 를 만들어야겠다
     @Transactional
@@ -48,36 +48,36 @@ public class TeamService {
                 .collect(toList());
     }
 
-    @Transactional
-    public void deleteTeam(Long teamId) {
-        Team foundTeam = teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new);
-        deleteLogoImageIfExits(foundTeam);
-        teamRepository.delete(foundTeam);
-    }
+//    @Transactional
+//    public void deleteTeam(Long teamId) {
+//        Team foundTeam = teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new);
+//        deleteLogoImageIfExits(foundTeam);
+//        teamRepository.delete(foundTeam);
+//    }
 
-    @Transactional
-    public String changeLogoImageToNew(MultipartFile logoImage, Long teamId){
-        Team foundTeam = findTeam(teamId);
-        String uploadedLogoImageUrl = amazonS3Service.uploadFile(logoImage);
-        deleteLogoImageIfExits(foundTeam);
-        return foundTeam.changeLogoImageUrl(uploadedLogoImageUrl);
-    }
+//    @Transactional
+//    public String changeLogoImageToNew(MultipartFile logoImage, Long teamId){
+//        Team foundTeam = findTeam(teamId);
+//        String uploadedLogoImageUrl = amazonS3Service.uploadFile(logoImage);
+//        deleteLogoImageIfExits(foundTeam);
+//        return foundTeam.changeLogoImageUrl(uploadedLogoImageUrl);
+//    }
 
-    @Transactional
-    public void changeLogoImageToBasic(Long teamId) {
-        Team foundTeam = findTeam(teamId);
-        foundTeam.changeLogoImageUrl("nothing");
-        amazonS3Service.deleteFile(foundTeam.getLogoImageUrl());
-    }
+//    @Transactional
+//    public void changeLogoImageToBasic(Long teamId) {
+//        Team foundTeam = findTeam(teamId);
+//        foundTeam.changeLogoImageUrl("nothing");
+//        amazonS3Service.deleteFile(foundTeam.getLogoImageUrl());
+//    }
 
-    private Team findTeam(Long teamId) {
+    public Team findTeam(Long teamId) {
         return teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new);
     }
 
-    private void deleteLogoImageIfExits(Team teamToCheck) {
-        if (!teamToCheck.getLogoImageUrl().equals("nothing")) {
-            amazonS3Service.deleteFile(teamToCheck.getLogoImageUrl());
-        }
-    }
+//    private void deleteLogoImageIfExits(Team teamToCheck) {
+//        if (!teamToCheck.getLogoImageUrl().equals("nothing")) {
+//            amazonS3Service.deleteFile(teamToCheck.getLogoImageUrl());
+//        }
+//    }
 
 }
