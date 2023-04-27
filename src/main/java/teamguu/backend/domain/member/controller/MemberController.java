@@ -5,9 +5,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import teamguu.backend.domain.member.dto.member.EditMemberInfoRequestDto;
+import teamguu.backend.domain.member.entity.Member;
 import teamguu.backend.domain.member.service.MemberService;
 import teamguu.backend.response.Response;
+
+import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.*;
 import static teamguu.backend.response.Response.*;
@@ -20,7 +23,15 @@ import static teamguu.backend.response.SuccessMessage.*;
 @Tag(name = "Member", description = "Member API Document")
 public class MemberController {
 
-    private MemberService memberService;
+    private final MemberService memberService;
+
+    @Operation(summary = "Edit member API", description = "put info what you want to change")
+    @ResponseStatus(OK)
+    @PostMapping("")
+    public Response editMemberInfo(@Valid @RequestBody EditMemberInfoRequestDto editMemberRequestDto) {
+        memberService.editMemberInfo(editMemberRequestDto);
+        return success(SUCCESS_TO_EDIT_MEMBER_INFO);
+    }
 
 //    @Operation(summary = "Delete member API", description = "this is to delete member")
 //    @ResponseStatus(OK)
@@ -29,7 +40,7 @@ public class MemberController {
 //        memberService.deleteMember(memberService.getCurrentMember());
 //        return success(SUCCESS_TO_DELETE_MEMBER);
 //    }
-//
+
 //    @Operation(summary = "Change member profile image to new API", description = "put profile image what you want to change")
 //    @ResponseStatus(OK)
 //    @PostMapping("/profile-image-new")

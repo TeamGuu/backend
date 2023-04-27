@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 //import teamguu.backend.config.aws.AmazonS3Service;
 import teamguu.backend.domain.member.entity.Member;
 import teamguu.backend.domain.team.dto.CreateTeamRequestDto;
+import teamguu.backend.domain.team.dto.EditTeamInfoRequestDto;
 import teamguu.backend.domain.team.dto.SimpleTeamInfoResponseDto;
 import teamguu.backend.domain.team.dto.TeamInfoResponseDto;
 import teamguu.backend.domain.team.entity.Team;
@@ -37,7 +38,7 @@ public class TeamService {
 
     @Transactional(readOnly = true)
     public TeamInfoResponseDto getTeamInfo(Long teamId) {
-        return TeamInfoResponseDto.from(teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new));
+        return TeamInfoResponseDto.from(findTeam(teamId));
     }
 
     @Transactional(readOnly = true)
@@ -46,6 +47,12 @@ public class TeamService {
                 .stream()
                 .map(SimpleTeamInfoResponseDto::from)
                 .collect(toList());
+    }
+
+    public void editTeamInfo(EditTeamInfoRequestDto editTeamInfoRequestDto, Long teamId) {
+        Team findTeam = findTeam(teamId);
+        findTeam.editTeam(editTeamInfoRequestDto.getName(), editTeamInfoRequestDto.getHistory(), editTeamInfoRequestDto.getAgeAvg(),
+                editTeamInfoRequestDto.getIntro(), editTeamInfoRequestDto.getPlayerInfo());
     }
 
 //    public void deleteTeam(Long teamId) {

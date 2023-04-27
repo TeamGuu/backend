@@ -62,4 +62,11 @@ public class Team extends EntityDateInfo {
         return this.logoImageUrl;
     }
 
+    public void editTeam(String name, String history, int ageAvg, String intro, String playerInfo) {
+        this.name = name;
+        this.history = history;
+        this.ageAvg = ageAvg;
+        this.intro = intro;
+        this.playerInfo = playerInfo;
+    }
 }

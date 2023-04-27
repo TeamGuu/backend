@@ -1,6 +1,5 @@
 package teamguu.backend.domain.member.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,5 +35,11 @@ public class Member extends EntityDateInfo {
     public String changeProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
         return this.profileImageUrl;
+    }
+
+    public void editMember(String name, String phone, String birth) {
+        this.name = name;
+        this.phone = phone;
+        this.birth = birth;
     }
 }

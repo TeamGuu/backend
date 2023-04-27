@@ -10,10 +10,12 @@ public class SuccessMessage {
     public static final String SUCCESS_TO_SIGN_IN = "로그인에 성공했습니다.";
     public static final String SUCCESS_TO_SIGN_OUT = "로그아웃에 성공했습니다.";
     public static final String SUCCESS_TO_REISSUE = "토큰 재발급에 성공했습니다.";
+    public static final String SUCCESS_TO_EDIT_MEMBER_INFO = "회원 프로필 정보를 변경하는데 성공했습니다.";
     public static final String SUCCESS_TO_DELETE_MEMBER = "회원을 삭제하는데 성공했습니다.";
     public static final String SUCCESS_TO_CHANGE_MEMBER_PROFILE_IMAGE = "회원 프로필 이미지를 변경하는데 성공했습니다.";
     public static final String SUCCESS_TO_CREATE_TEAM = "팀 생성에 성공했습니다.";
     public static final String SUCCESS_TO_GET_TEAM_INFO = "팀 정보를 가져오는데 성공했습니다.";
+    public static final String SUCCESS_TO_EDIT_TEAM_INFO = "팀 정보를 변경하는데 성공했습니다.";
     public static final String SUCCESS_TO_DELETE_TEAM = "팀을 삭제하는데 성공했습니다.";
     public static final String SUCCESS_TO_CHANGE_TEAM_LOGO_IMAGE = "팀 로고 이미지를 변경 하는데 성공했습니다.";
     public static final String SUCCESS_TO_CREATE_MATCH = "매칭 공고문 생성에 성공했습니다.";
