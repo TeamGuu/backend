@@ -23,21 +23,24 @@ public class MemberService {
     private final RedisService redisService;
     private final AmazonS3Service amazonS3Service;
 
-    public void deleteMember(Member member) {
-        redisService.deleteValues("RT: " + member.getUsername());
-        deleteProfileImageIfExits(member);
-        memberRepository.delete(member);
+    public void deleteMember() {
+        Member currentMember = getCurrentMember();
+        redisService.deleteValues("RT: " + currentMember.getUsername());
+        deleteProfileImageIfExits(currentMember);
+        memberRepository.delete(currentMember);
     }
 
-    public String changeLogoImageToNew(MultipartFile logoImage, Member member){
+    public String changeLogoImageToNew(MultipartFile logoImage){
+        Member currentMember = getCurrentMember();
         String uploadedProfileImageUrl = amazonS3Service.uploadFile((logoImage));
-        deleteProfileImageIfExits(member);
-        return member.changeProfileImageUrl(uploadedProfileImageUrl);
+        deleteProfileImageIfExits(currentMember);
+        return currentMember.changeProfileImageUrl(uploadedProfileImageUrl);
     }
 
-    public void changeProfileImageToBasic(Member member) {
-        String deleteProfileImageUrl = member.getProfileImageUrl();
-        member.changeProfileImageUrl("nothing");
+    public void changeProfileImageToBasic() {
+        Member currentMember = getCurrentMember();
+        String deleteProfileImageUrl = currentMember.getProfileImageUrl();
+        currentMember.changeProfileImageUrl("basic");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
     }
 
@@ -55,7 +58,7 @@ public class MemberService {
     }
 
     private void deleteProfileImageIfExits(Member memberToCheck) {
-        if (!memberToCheck.getProfileImageUrl().equals("nothing")) {
+        if (!memberToCheck.getProfileImageUrl().equals("basic")) {
             amazonS3Service.deleteFile(memberToCheck.getProfileImageUrl());
         }
     }
