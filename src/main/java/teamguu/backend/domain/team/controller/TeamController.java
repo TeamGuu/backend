@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import teamguu.backend.domain.member.service.MemberService;
 import teamguu.backend.domain.team.dto.CreateTeamRequestDto;
+import teamguu.backend.domain.team.dto.EditTeamInfoRequestDto;
 import teamguu.backend.domain.team.service.TeamService;
 import teamguu.backend.response.Response;
 
@@ -20,7 +21,7 @@ import static teamguu.backend.response.SuccessMessage.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/team")
+@RequestMapping(value = "/api/teams")
 @Tag(name = "Team", description = "Team API Document")
 public class TeamController {
 
@@ -47,6 +48,14 @@ public class TeamController {
     @GetMapping("/simple")
     public Response getSimpleTeamInfoList() {
         return success(SUCCESS_TO_GET_TEAM_INFO, teamService.getSimpleTeamInfoList(memberService.getCurrentMember().getId()));
+    }
+
+    @Operation(summary = "Edit team API", description = "put info and team id what you want to change")
+    @ResponseStatus(OK)
+    @PatchMapping("")
+    public Response editTeamInfo(@Valid @RequestBody EditTeamInfoRequestDto editTeamInfoRequestDto, Long teamId) {
+        teamService.editTeamInfo(editTeamInfoRequestDto, teamId);
+        return success(SUCCESS_TO_EDIT_TEAM_INFO);
     }
 
 //    @Operation(summary = "Delete team API", description = "put team id what you want to delete")

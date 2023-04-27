@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 //import teamguu.backend.config.aws.AmazonS3Service;
 import teamguu.backend.domain.member.entity.Member;
 import teamguu.backend.domain.team.dto.CreateTeamRequestDto;
+import teamguu.backend.domain.team.dto.EditTeamInfoRequestDto;
 import teamguu.backend.domain.team.dto.SimpleTeamInfoResponseDto;
 import teamguu.backend.domain.team.dto.TeamInfoResponseDto;
 import teamguu.backend.domain.team.entity.Team;
@@ -21,13 +22,13 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TeamService {
 
     private final TeamRepository teamRepository;
 //    private final AmazonS3Service amazonS3Service;
 
     //TODO 팀 인원의 평균나이를 구해주는 method 를 만들어야겠다
-    @Transactional
     public void createTeam(CreateTeamRequestDto createTeamRequestDto, Member captain) {
         if (teamRepository.existsByName(createTeamRequestDto.getName())) {
             throw new TeamNameAlreadyExistsException(createTeamRequestDto.getName());
@@ -37,7 +38,7 @@ public class TeamService {
 
     @Transactional(readOnly = true)
     public TeamInfoResponseDto getTeamInfo(Long teamId) {
-        return TeamInfoResponseDto.from(teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new));
+        return TeamInfoResponseDto.from(findTeam(teamId));
     }
 
     @Transactional(readOnly = true)
@@ -48,14 +49,18 @@ public class TeamService {
                 .collect(toList());
     }
 
-//    @Transactional
+    public void editTeamInfo(EditTeamInfoRequestDto editTeamInfoRequestDto, Long teamId) {
+        Team findTeam = findTeam(teamId);
+        findTeam.editTeam(editTeamInfoRequestDto.getName(), editTeamInfoRequestDto.getHistory(), editTeamInfoRequestDto.getAgeAvg(),
+                editTeamInfoRequestDto.getIntro(), editTeamInfoRequestDto.getPlayerInfo());
+    }
+
 //    public void deleteTeam(Long teamId) {
-//        Team foundTeam = teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new);
+//        Team foundTeam = findTeam(teamId);
 //        deleteLogoImageIfExits(foundTeam);
 //        teamRepository.delete(foundTeam);
 //    }
 
-//    @Transactional
 //    public String changeLogoImageToNew(MultipartFile logoImage, Long teamId){
 //        Team foundTeam = findTeam(teamId);
 //        String uploadedLogoImageUrl = amazonS3Service.uploadFile(logoImage);
@@ -63,11 +68,11 @@ public class TeamService {
 //        return foundTeam.changeLogoImageUrl(uploadedLogoImageUrl);
 //    }
 
-//    @Transactional
 //    public void changeLogoImageToBasic(Long teamId) {
 //        Team foundTeam = findTeam(teamId);
+//        String deleteLogoImageUrl = foundTeam.getLogoImageUrl();
 //        foundTeam.changeLogoImageUrl("nothing");
-//        amazonS3Service.deleteFile(foundTeam.getLogoImageUrl());
+//        amazonS3Service.deleteFile(deleteLogoImageUrl);
 //    }
 
     public Team findTeam(Long teamId) {

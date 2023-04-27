@@ -10,7 +10,6 @@ import teamguu.backend.domain.member.dto.sign.SignUpRequestDto;
 import teamguu.backend.domain.member.dto.sign.TokenRequestDto;
 import teamguu.backend.domain.member.dto.sign.ValidateSignUpRequestDto;
 import teamguu.backend.domain.member.entity.Member;
-import teamguu.backend.domain.member.repository.MemberRepository;
 import teamguu.backend.domain.member.service.AuthService;
 import teamguu.backend.domain.member.service.MemberService;
 import teamguu.backend.response.Response;
@@ -71,7 +70,4 @@ public class AuthController {
     public Response reissue(@RequestBody TokenRequestDto tokenRequestDto) {
         return success(SUCCESS_TO_REISSUE, authService.reissue(tokenRequestDto));
     }
-
-
-
 }
