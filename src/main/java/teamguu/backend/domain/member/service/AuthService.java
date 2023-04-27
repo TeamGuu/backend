@@ -87,6 +87,7 @@ public class AuthService {
                 .name(req.getName())
                 .phone(req.getPhone())
                 .birth(req.getBirth())
+                .profileImageUrl("nothing")
                 .authority(Authority.ROLE_USER)
                 .build();
     }

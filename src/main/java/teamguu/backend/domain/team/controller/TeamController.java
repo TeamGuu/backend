@@ -20,7 +20,7 @@ import static teamguu.backend.response.SuccessMessage.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/team")
+@RequestMapping(value = "/api/teams")
 @Tag(name = "Team", description = "Team API Document")
 public class TeamController {
 

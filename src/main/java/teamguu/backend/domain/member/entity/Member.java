@@ -32,4 +32,9 @@ public class Member extends EntityDateInfo {
     private String profileImageUrl;
     @Enumerated(EnumType.STRING)
     private Authority authority;
+
+    public String changeProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+        return this.profileImageUrl;
+    }
 }
