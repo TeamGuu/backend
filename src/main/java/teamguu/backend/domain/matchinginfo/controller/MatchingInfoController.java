@@ -29,7 +29,7 @@ public class MatchingInfoController {
     private final MatchingInfoService matchingInfoService;
     private final TeamService teamService;
 
-    @Operation(summary = "Create Match API", description = "put your match info to create")
+    @Operation(summary = "Create match API", description = "put your match info to create")
     @ResponseStatus(OK)
     @PostMapping()
     public Response createMatchingInfo(@Valid @RequestBody CreateMatchingInfoRequestDto createMatchingInfoRequestDto, Long teamId) {
@@ -56,7 +56,7 @@ public class MatchingInfoController {
         return success(SUCCESS_TO_GET_MATCH_INFO, matchingInfoService.getMatchingInfo(matchingInfoId));
     }
 
-    @Operation(summary = "delete match info API", description = "put match id what you want to delete")
+    @Operation(summary = "Delete match info API", description = "put match id what you want to delete")
     @ResponseStatus(OK)
     @DeleteMapping()
     public Response deleteMatchingInfo(Long matchingInfoId) {
@@ -64,7 +64,7 @@ public class MatchingInfoController {
         return success(SUCCESS_TO_DELETE_MATCH);
     }
 
-    @Operation(summary = "change match status to complete API", description = "put match id what you want to change")
+    @Operation(summary = "Change match status to complete API", description = "put match id what you want to change")
     @ResponseStatus(OK)
     @PatchMapping("/status")
     public Response changeMatchingInfoStatusToComplete(Long matchingInfoId) {

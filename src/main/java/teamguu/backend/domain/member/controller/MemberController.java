@@ -45,8 +45,8 @@ public class MemberController {
     @Operation(summary = "Change member profile image to new API", description = "put profile image what you want to change")
     @ResponseStatus(OK)
     @PostMapping("/profile-image-new")
-    public Response changeLogoImageToNew(@RequestPart MultipartFile profileImage) {
-        return success(SUCCESS_TO_CHANGE_MEMBER_PROFILE_IMAGE, memberService.changeLogoImageToNew(profileImage));
+    public Response changeProfileImageToNew(@RequestPart MultipartFile profileImage) {
+        return success(SUCCESS_TO_CHANGE_MEMBER_PROFILE_IMAGE, memberService.changeProfileImageToNew(profileImage));
     }
 
     @Operation(summary = "Change member profile image to basic API", description = "this is to change profile image to basic")
