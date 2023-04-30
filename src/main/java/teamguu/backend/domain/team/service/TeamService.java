@@ -72,7 +72,7 @@ public class TeamService {
     public void changeLogoImageToBasic(Long teamId) {
         Team foundTeam = findTeam(teamId);
         String deleteLogoImageUrl = foundTeam.getLogoImageUrl();
-        foundTeam.changeLogoImageUrl("nothing");
+        foundTeam.changeLogoImageUrl("basic");
         amazonS3Service.deleteFile(deleteLogoImageUrl);
     }
 
@@ -89,7 +89,7 @@ public class TeamService {
     }
 
     private void deleteLogoImageIfExits(Team teamToCheck) {
-        if (!teamToCheck.getLogoImageUrl().equals("nothing")) {
+        if (!teamToCheck.getLogoImageUrl().equals("basic")) {
             amazonS3Service.deleteFile(teamToCheck.getLogoImageUrl());
         }
     }

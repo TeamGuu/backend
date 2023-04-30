@@ -32,7 +32,7 @@ public class AuthController {
     private final MemberService memberService;
     private final AuthService authService;
 
-    @Operation(summary = "Validate Duplicate API", description = "put your validate duplicate info")
+    @Operation(summary = "Validate duplicate API", description = "put your validate duplicate info")
     @ResponseStatus(OK)
     @PostMapping("/validate-duplicate")
     public Response validateDuplicateUsername(@Valid @RequestBody ValidateSignUpRequestDto validateSignUpRequestDto) {
@@ -40,7 +40,7 @@ public class AuthController {
         return success(SUCCESS_TO_VALIDATE_DUPLICATE);
     }
 
-    @Operation(summary = "Sign Up API", description = "put your sign up info.")
+    @Operation(summary = "Sign up API", description = "put your sign up info.")
     @ResponseStatus(CREATED)
     @PostMapping("/sign-up")
     public Response signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
@@ -48,14 +48,14 @@ public class AuthController {
         return success(SUCCESS_TO_SIGN_UP);
     }
 
-    @Operation(summary = "Sign In API", description = "put your sign in info.")
+    @Operation(summary = "Sign in API", description = "put your sign in info.")
     @PostMapping("/sign-in")
     @ResponseStatus(OK)
     public Response signIn(@Valid @RequestBody LoginRequestDto req) {
         return success(SUCCESS_TO_SIGN_IN, authService.signIn(req));
     }
 
-    @Operation(summary = "logout API", description = "this is logout")
+    @Operation(summary = "Logout API", description = "this is logout")
     @PostMapping("/logout")
     @ResponseStatus(OK)
     public Response logout() {
