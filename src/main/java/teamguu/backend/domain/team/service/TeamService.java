@@ -51,6 +51,7 @@ public class TeamService {
 
     public void editTeamInfo(EditTeamInfoRequestDto editTeamInfoRequestDto, Long teamId) {
         Team findTeam = findTeam(teamId);
+        validateDuplicateName(editTeamInfoRequestDto, findTeam);
         findTeam.editTeam(editTeamInfoRequestDto.getName(), editTeamInfoRequestDto.getHistory(), editTeamInfoRequestDto.getAgeAvg(),
                 editTeamInfoRequestDto.getIntro(), editTeamInfoRequestDto.getPlayerInfo());
     }
@@ -77,6 +78,14 @@ public class TeamService {
 
     public Team findTeam(Long teamId) {
         return teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new);
+    }
+
+    private void validateDuplicateName(EditTeamInfoRequestDto editTeamInfoRequestDto, Team findTeam) {
+        if (!editTeamInfoRequestDto.getName().equals(findTeam.getName())) {
+            if (teamRepository.existsByName(editTeamInfoRequestDto.getName())) {
+                throw new TeamNameAlreadyExistsException(editTeamInfoRequestDto.getName());
+            }
+        }
     }
 
     private void deleteLogoImageIfExits(Team teamToCheck) {
