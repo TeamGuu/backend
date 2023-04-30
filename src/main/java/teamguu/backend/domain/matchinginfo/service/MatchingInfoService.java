@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import teamguu.backend.domain.matchinginfo.dto.CreateMatchingInfoRequestDto;
 import teamguu.backend.domain.matchinginfo.dto.MatchingInfoResponseDto;
 import teamguu.backend.domain.matchinginfo.dto.SimpleMatchingInfoResponseDto;
+import teamguu.backend.domain.matchinginfo.entity.MatchingInfo;
 import teamguu.backend.domain.matchinginfo.repository.MatchingInfoRepository;
 import teamguu.backend.domain.team.entity.Team;
 import teamguu.backend.exception.situation.MatchingInfoNotFoundException;
@@ -34,20 +35,20 @@ public class MatchingInfoService {
     }
 
     public MatchingInfoResponseDto getMatchingInfo(Long matchingInfoId) {
-        return MatchingInfoResponseDto.from(matchingInfoRepository.findById(matchingInfoId)
-                .orElseThrow(MatchingInfoNotFoundException::new));
+        return MatchingInfoResponseDto.from(findMatchingInfo(matchingInfoId));
     }
 
     @Transactional
     public void deleteMatchingInfo(Long matchingInfoId) {
-        matchingInfoRepository.delete(matchingInfoRepository.findById(matchingInfoId)
-                .orElseThrow(MatchingInfoNotFoundException::new));
+        matchingInfoRepository.delete(findMatchingInfo(matchingInfoId));
     }
 
     @Transactional
     public void changeMatchingInfoStatusToComplete(Long matchingInfoId) {
-        matchingInfoRepository.findById(matchingInfoId)
-                .orElseThrow(MatchingInfoNotFoundException::new)
-                .changeStatusToComplete();
+       findMatchingInfo(matchingInfoId).changeStatusToComplete();
+    }
+
+    public MatchingInfo findMatchingInfo(Long matchingInfoId) {
+        return matchingInfoRepository.findById(matchingInfoId).orElseThrow(MatchingInfoNotFoundException::new);
     }
 }
