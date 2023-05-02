@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import teamguu.backend.domain.member.dto.member.EditMemberInfoRequestDto;
@@ -14,6 +15,7 @@ import teamguu.backend.response.Response;
 import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 import static teamguu.backend.response.Response.*;
 import static teamguu.backend.response.SuccessMessage.*;
 
@@ -44,14 +46,14 @@ public class MemberController {
 
     @Operation(summary = "Change member profile image to new API", description = "put profile image what you want to change")
     @ResponseStatus(OK)
-    @PostMapping("/profile-image-new")
+    @PostMapping(value = "/profile-image-new", consumes = MULTIPART_FORM_DATA_VALUE, produces = APPLICATION_JSON_VALUE)
     public Response changeProfileImageToNew(@RequestPart MultipartFile profileImage) {
         return success(SUCCESS_TO_CHANGE_MEMBER_PROFILE_IMAGE, memberService.changeProfileImageToNew(profileImage));
     }
 
     @Operation(summary = "Change member profile image to basic API", description = "this is to change profile image to basic")
     @ResponseStatus(OK)
-    @PostMapping("/profile-image-basic")
+    @PostMapping( "/profile-image-basic")
     public Response changeLogoImageToBasic() {
         memberService.changeProfileImageToBasic();
         return success(SUCCESS_TO_CHANGE_MEMBER_PROFILE_IMAGE);

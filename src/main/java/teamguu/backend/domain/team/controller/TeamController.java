@@ -15,6 +15,8 @@ import teamguu.backend.response.Response;
 import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 import static teamguu.backend.response.Response.success;
 import static teamguu.backend.response.SuccessMessage.*;
 
@@ -68,7 +70,7 @@ public class TeamController {
 
     @Operation(summary = "Change team logo image to new API", description = "put logo image and team ID what you want to change")
     @ResponseStatus(OK)
-    @PostMapping("/logo-image-new")
+    @PostMapping(value = "/logo-image-new", consumes = MULTIPART_FORM_DATA_VALUE, produces = APPLICATION_JSON_VALUE)
     public Response changeLogoImageToNew(@RequestPart MultipartFile logoImage, Long teamId) {
         return success(SUCCESS_TO_CHANGE_TEAM_LOGO_IMAGE, teamService.changeLogoImageToNew(logoImage, teamId));
     }

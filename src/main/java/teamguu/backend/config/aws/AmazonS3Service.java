@@ -1,11 +1,8 @@
 package teamguu.backend.config.aws;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,12 +32,11 @@ public class AmazonS3Service {
         objectMetadata.setContentType(multipartFile.getContentType());
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
-            amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, objectMetadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            amazonS3Client.putObject(bucketName, fileName, inputStream, objectMetadata);
         } catch (Exception e) {
             throw new FileUploadFailureException(e.getCause());
         }
-        return amazonS3Client.getUrl(bucketName, fileName).toString();
+        return fileName;
     }
 
     public void deleteFile(String fileName) {
