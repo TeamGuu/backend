@@ -102,6 +102,14 @@ public class ExceptionAdvice {
         return failure(NOT_FOUND, "이미지 형식을 지원하지 않습니다.");
     }
 
+    // 400 응답
+    // 파일 확장자가 존재하지 않음
+    @ExceptionHandler(StringIndexOutOfBoundsException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public Response stringIndexOutOfBoundsException() {
+        return failure(BAD_REQUEST, "파일 확장자가 존재하지 않습니다.");
+    }
+
     // 404 응답
     // 파일 업로드 실패
     @ExceptionHandler(FileUploadFailureException.class)

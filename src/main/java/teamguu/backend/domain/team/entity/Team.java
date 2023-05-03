@@ -27,32 +27,21 @@ public class Team extends EntityDateInfo {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_id")
     private Long id;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member captain;
-
     @OneToMany(mappedBy = "team", cascade = ALL, orphanRemoval = true)
     private List<ReservationInfo> reservationInfos = new ArrayList<>();
-
     @OneToMany(mappedBy = "team", cascade = ALL, orphanRemoval = true)
     private List<MatchingInfo> matchingInfos = new ArrayList<>();
 
     private String name;
-
     @Enumerated(EnumType.STRING)
     private Sports sports;
-
     private String history;
-
-    private int ageAvg;
-
     private String intro;
-
     private String logoImageUrl;
-
     private String playerInfo;
-
     private int victory;
     private int draw;
     private int defeat;
@@ -62,10 +51,9 @@ public class Team extends EntityDateInfo {
         return this.logoImageUrl;
     }
 
-    public void editTeam(String name, String history, int ageAvg, String intro, String playerInfo) {
+    public void editTeam(String name, String history, String intro, String playerInfo) {
         this.name = name;
         this.history = history;
-        this.ageAvg = ageAvg;
         this.intro = intro;
         this.playerInfo = playerInfo;
     }

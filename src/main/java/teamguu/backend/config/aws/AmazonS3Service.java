@@ -1,8 +1,10 @@
 package teamguu.backend.config.aws;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,13 +15,13 @@ import teamguu.backend.exception.situation.FileUploadFailureException;
 
 import java.io.InputStream;
 import java.util.Objects;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class AmazonS3Service {
 
-    private static final String FILE_EXTENSION_SEPARATOR = ".";
     private final AmazonS3 amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -32,9 +34,10 @@ public class AmazonS3Service {
         objectMetadata.setContentType(multipartFile.getContentType());
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
-            amazonS3Client.putObject(bucketName, fileName, inputStream, objectMetadata);
+            amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
-            throw new FileUploadFailureException(e.getCause());
+            throw new FileUploadFailureException(e.getMessage());
         }
         return fileName;
     }
@@ -43,19 +46,17 @@ public class AmazonS3Service {
         amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
     }
 
-
     private void validateFileExists(MultipartFile multipartFile) {
         if (multipartFile.isEmpty()) {
             throw new EmptyFileException();
         }
     }
 
-    private String createFileName(String originalFileName) {
-        int fileExtensionIndex = originalFileName.lastIndexOf(FILE_EXTENSION_SEPARATOR); //파일 확장자 구분선
-        String fileExtension = originalFileName.substring(fileExtensionIndex); //파일 확장자
-        String fileName = originalFileName.substring(0, fileExtensionIndex);
-        String now = String.valueOf(System.currentTimeMillis());
+    private String createFileName(String fileName) {
+        return UUID.randomUUID().toString().concat(getFileExtension(fileName));
+    }
 
-        return fileName + "_" + now + fileExtension;
+    private String getFileExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf("."));
     }
 }

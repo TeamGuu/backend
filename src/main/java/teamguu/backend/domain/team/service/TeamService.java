@@ -51,8 +51,8 @@ public class TeamService {
 
     public void editTeamInfo(EditTeamInfoRequestDto editTeamInfoRequestDto, Long teamId) {
         Team findTeam = findTeam(teamId);
-        validateDuplicateName(editTeamInfoRequestDto, findTeam);
-        findTeam.editTeam(editTeamInfoRequestDto.getName(), editTeamInfoRequestDto.getHistory(), editTeamInfoRequestDto.getAgeAvg(),
+        validateDuplicateByName(editTeamInfoRequestDto, findTeam);
+        findTeam.editTeam(editTeamInfoRequestDto.getName(), editTeamInfoRequestDto.getHistory(),
                 editTeamInfoRequestDto.getIntro(), editTeamInfoRequestDto.getPlayerInfo());
     }
 
@@ -72,15 +72,17 @@ public class TeamService {
     public void changeLogoImageToBasic(Long teamId) {
         Team foundTeam = findTeam(teamId);
         String deleteLogoImageUrl = foundTeam.getLogoImageUrl();
+        // TODO S3에 기본 이미지 저장 후 확장자 추가 (Ex. basic.JPEG) -> 이미지 이름을 Member 와 다르게 해야할 듯?
         foundTeam.changeLogoImageUrl("basic");
         amazonS3Service.deleteFile(deleteLogoImageUrl);
     }
 
+    @Transactional(readOnly = true)
     public Team findTeam(Long teamId) {
         return teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new);
     }
 
-    private void validateDuplicateName(EditTeamInfoRequestDto editTeamInfoRequestDto, Team findTeam) {
+    private void validateDuplicateByName(EditTeamInfoRequestDto editTeamInfoRequestDto, Team findTeam) {
         if (!editTeamInfoRequestDto.getName().equals(findTeam.getName())) {
             if (teamRepository.existsByName(editTeamInfoRequestDto.getName())) {
                 throw new TeamNameAlreadyExistsException(editTeamInfoRequestDto.getName());
@@ -93,5 +95,4 @@ public class TeamService {
             amazonS3Service.deleteFile(teamToCheck.getLogoImageUrl());
         }
     }
-
 }

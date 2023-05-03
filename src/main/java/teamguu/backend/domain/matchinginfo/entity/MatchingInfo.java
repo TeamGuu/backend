@@ -21,22 +21,16 @@ public class MatchingInfo extends EntityDateInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "matchingInfo_id")
     private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
     @Enumerated(EnumType.STRING)
     private Sports sports;
-
     private String place;
-
     private String date;
-
     private String title;
-
     private String content;
-
     @Enumerated(EnumType.STRING)
     private Status status;
 

@@ -22,18 +22,13 @@ public class Stadium extends EntityDateInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stadium_id")
     private Long id;
-
     @OneToMany(mappedBy = "stadium", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservationInfo> reservationInfos = new ArrayList<>();
 
     private String name;
-
     private String imageUrl;
-
     private String location;
-
     private String phone;
-
     private String openTime;
     private String closeTime;
 }

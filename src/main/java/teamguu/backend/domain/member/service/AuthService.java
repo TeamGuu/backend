@@ -21,6 +21,7 @@ import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthService {
 
     private final MemberRepository memberRepository;
@@ -29,19 +30,17 @@ public class AuthService {
     private final RedisService redisService;
     private final JwtProvider jwtProvider;
 
-    @Transactional
-    public void duplicateValidate(ValidateSignUpRequestDto validateSignUpRequestDto) {
-        validateSignUpInfo(validateSignUpRequestDto);
+    public void validateDuplicate(ValidateSignUpRequestDto validateSignUpRequestDto) {
+        validateDuplicateByUsername(validateSignUpRequestDto);
     }
 
-    @Transactional
     public Member signUp(SignUpRequestDto req) {
+        validateSignUpInfo(req);
         Member member = createSignupFormOfUser(req);
         memberRepository.save(member);
         return member;
     }
 
-    @Transactional
     public TokenResponseDto signIn(LoginRequestDto req) {
         Member member = validateExistsByUsername(req);
         validatePassword(req, member);
@@ -53,12 +52,10 @@ public class AuthService {
         return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
     }
 
-    @Transactional
     public void logout(Member member) {
         redisService.deleteValues("RT: " + member.getUsername());
     }
 
-    @Transactional
     public TokenResponseDto reissue(TokenRequestDto tokenRequestDto) {
         validateRefreshToken(tokenRequestDto);
 
@@ -74,9 +71,15 @@ public class AuthService {
         return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
     }
 
-    private void validateSignUpInfo(ValidateSignUpRequestDto validateSignUpRequestDto) {
+    private void validateDuplicateByUsername(ValidateSignUpRequestDto validateSignUpRequestDto) {
         if (memberRepository.existsByUsername(validateSignUpRequestDto.getUsername())) {
             throw new UsernameAlreadyExistsException(validateSignUpRequestDto.getUsername());
+        }
+    }
+
+    private void validateSignUpInfo(SignUpRequestDto req) {
+        if(memberRepository.existsByUsername(req.getUsername())) {
+            throw new UsernameAlreadyExistsException(req.getUsername());
         }
     }
 
@@ -87,6 +90,7 @@ public class AuthService {
                 .name(req.getName())
                 .phone(req.getPhone())
                 .birth(req.getBirth())
+                // TODO S3에 이미지 저장 후, 확장자 추가 (Ex. basic.JPEG)
                 .profileImageUrl("basic")
                 .authority(Authority.ROLE_USER)
                 .build();

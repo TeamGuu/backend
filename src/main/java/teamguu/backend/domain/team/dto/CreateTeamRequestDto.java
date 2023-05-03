@@ -41,7 +41,6 @@ public class CreateTeamRequestDto {
                 .defeat(0)
                 .draw(0)
                 .victory(0)
-                .ageAvg(0)
                 .build();
     }
 }

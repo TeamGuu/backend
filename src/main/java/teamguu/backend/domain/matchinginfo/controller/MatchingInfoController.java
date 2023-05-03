@@ -41,7 +41,6 @@ public class MatchingInfoController {
     @ResponseStatus(OK)
     @GetMapping("/simple")
     public Response getSimpleMatchingInfoList(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-
         /**
          * TODO page, size 프론트 분들과 논의
          * TODO page, size parameter 형식이 아니라 Dto 형식으로 받아도 되나?

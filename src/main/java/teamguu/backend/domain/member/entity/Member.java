@@ -23,6 +23,7 @@ public class Member extends EntityDateInfo {
     private Long id;
     @OneToMany(mappedBy = "captain", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Team> teams = new ArrayList<>();
+
     private String username;
     private String password;
     private String name;

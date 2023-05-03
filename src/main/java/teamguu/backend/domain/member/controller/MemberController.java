@@ -30,7 +30,7 @@ public class MemberController {
 
     @Operation(summary = "Edit member API", description = "put info what you want to change")
     @ResponseStatus(OK)
-    @PostMapping("")
+    @PatchMapping("")
     public Response editMemberInfo(@Valid @RequestBody EditMemberInfoRequestDto editMemberRequestDto) {
         memberService.editMemberInfo(editMemberRequestDto);
         return success(SUCCESS_TO_EDIT_MEMBER_INFO);
