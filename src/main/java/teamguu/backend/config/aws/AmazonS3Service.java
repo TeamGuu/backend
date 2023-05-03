@@ -22,7 +22,6 @@ import java.util.UUID;
 @Slf4j
 public class AmazonS3Service {
 
-    private static final String FILE_EXTENSION_SEPARATOR = ".";
     private final AmazonS3 amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
