@@ -28,7 +28,6 @@ public class TeamService {
     private final TeamRepository teamRepository;
     private final AmazonS3Service amazonS3Service;
 
-    //TODO 팀 인원의 평균나이를 구해주는 method 를 만들어야겠다
     public void createTeam(CreateTeamRequestDto createTeamRequestDto, Member captain) {
         if (teamRepository.existsByName(createTeamRequestDto.getName())) {
             throw new TeamNameAlreadyExistsException(createTeamRequestDto.getName());
@@ -72,8 +71,7 @@ public class TeamService {
     public void changeLogoImageToBasic(Long teamId) {
         Team foundTeam = findTeam(teamId);
         String deleteLogoImageUrl = foundTeam.getLogoImageUrl();
-        // TODO S3에 기본 이미지 저장 후 확장자 추가 (Ex. basic.JPEG) -> 이미지 이름을 Member 와 다르게 해야할 듯?
-        foundTeam.changeLogoImageUrl("basic");
+        foundTeam.changeLogoImageUrl("basic_team.png");
         amazonS3Service.deleteFile(deleteLogoImageUrl);
     }
 
@@ -91,7 +89,7 @@ public class TeamService {
     }
 
     private void deleteLogoImageIfExits(Team teamToCheck) {
-        if (!teamToCheck.getLogoImageUrl().equals("basic")) {
+        if (!teamToCheck.getLogoImageUrl().equals("basic_team.png")) {
             amazonS3Service.deleteFile(teamToCheck.getLogoImageUrl());
         }
     }
