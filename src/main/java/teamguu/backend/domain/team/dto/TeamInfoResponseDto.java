@@ -30,8 +30,6 @@ public class TeamInfoResponseDto {
     private String intro;
     @Schema(description = "팀 멤버정보")
     private String playerInfo;
-    @Schema(description = "팀 멤버 평균연령")
-    private int ageAvg;
     @Schema(description = "팀 로고 이미지 URL")
     private String logoImageUrl;
     @Schema(description = "팀 승리전적")
@@ -50,7 +48,6 @@ public class TeamInfoResponseDto {
                 .history(team.getHistory())
                 .intro(team.getIntro())
                 .playerInfo(team.getPlayerInfo())
-                .ageAvg(team.getAgeAvg())
                 .logoImageUrl(team.getLogoImageUrl())
                 .victory(team.getVictory())
                 .draw(team.getDraw())

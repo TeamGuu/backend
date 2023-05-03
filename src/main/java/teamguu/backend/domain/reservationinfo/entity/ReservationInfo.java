@@ -23,11 +23,9 @@ public class ReservationInfo extends EntityDateInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservationInfo_id")
     private Long id;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "stadium_id")
     private Stadium stadium;

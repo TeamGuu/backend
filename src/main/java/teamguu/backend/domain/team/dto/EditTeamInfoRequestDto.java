@@ -16,8 +16,6 @@ public class EditTeamInfoRequestDto {
     private String name;
     @Schema(description = "팀 약력.", defaultValue = "용인시장 배 토너먼트 2회 우승")
     private String history;
-    @Schema(description = "팀 평균 연령", defaultValue = "28")
-    private int ageAvg;
     @Schema(description = "팀의 한줄소개.", defaultValue = "최고의 팀 띵지 FC 입니다.")
     private String intro;
     @NotBlank(message = "팀의 멤버정보를 입력해주세요.")

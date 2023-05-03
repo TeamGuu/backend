@@ -29,9 +29,9 @@ public class MemberService {
         memberRepository.delete(currentMember);
     }
 
-    public String changeProfileImageToNew(MultipartFile logoImage){
+    public String changeProfileImageToNew(MultipartFile profileImage){
         Member currentMember = getCurrentMember();
-        String uploadedProfileImageUrl = amazonS3Service.uploadFile((logoImage));
+        String uploadedProfileImageUrl = amazonS3Service.uploadFile((profileImage));
         deleteProfileImageIfExits(currentMember);
         return currentMember.changeProfileImageUrl(uploadedProfileImageUrl);
     }
@@ -39,17 +39,19 @@ public class MemberService {
     public void changeProfileImageToBasic() {
         Member currentMember = getCurrentMember();
         String deleteProfileImageUrl = currentMember.getProfileImageUrl();
+        // TODO S3에 기본 이미지 저장 후 확장자 추가 (Ex. basic.JPEG)
         currentMember.changeProfileImageUrl("basic");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
     }
 
     public void editMemberInfo(EditMemberInfoRequestDto editMemberRequestDto) {
 
-        // TODO 중복 확인 or 휴대폰 인증번호
+        // TODO 휴대폰 인증번호
         Member currentMember = getCurrentMember();
         currentMember.editMember(editMemberRequestDto.getName(), editMemberRequestDto.getPhone(), editMemberRequestDto.getBirth());
     }
 
+    @Transactional(readOnly = true)
     public Member getCurrentMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return memberRepository.findByUsername(authentication.getName())

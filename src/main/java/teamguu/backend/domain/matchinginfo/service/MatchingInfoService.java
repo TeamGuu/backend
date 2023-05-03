@@ -17,37 +17,36 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class MatchingInfoService {
 
     private final MatchingInfoRepository matchingInfoRepository;
 
-    @Transactional
     public void createMatchingInfo(CreateMatchingInfoRequestDto createMatchingInfoRequestDto, Team team) {
         matchingInfoRepository.save(createMatchingInfoRequestDto.toEntity(team));
     }
 
+    @Transactional(readOnly = true)
     public List<SimpleMatchingInfoResponseDto> getSimpleMatchingInfoList(Pageable pageable) {
-
         return matchingInfoRepository.findAll(pageable).stream()
                 .map(SimpleMatchingInfoResponseDto::from)
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public MatchingInfoResponseDto getMatchingInfo(Long matchingInfoId) {
         return MatchingInfoResponseDto.from(findMatchingInfo(matchingInfoId));
     }
 
-    @Transactional
     public void deleteMatchingInfo(Long matchingInfoId) {
         matchingInfoRepository.delete(findMatchingInfo(matchingInfoId));
     }
 
-    @Transactional
     public void changeMatchingInfoStatusToComplete(Long matchingInfoId) {
        findMatchingInfo(matchingInfoId).changeStatusToComplete();
     }
 
+    @Transactional(readOnly = true)
     public MatchingInfo findMatchingInfo(Long matchingInfoId) {
         return matchingInfoRepository.findById(matchingInfoId).orElseThrow(MatchingInfoNotFoundException::new);
     }
