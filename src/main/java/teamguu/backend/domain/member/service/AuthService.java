@@ -90,8 +90,7 @@ public class AuthService {
                 .name(req.getName())
                 .phone(req.getPhone())
                 .birth(req.getBirth())
-                // TODO S3에 이미지 저장 후, 확장자 추가 (Ex. basic.JPEG)
-                .profileImageUrl("basic")
+                .profileImageUrl("basic_profile.png")
                 .authority(Authority.ROLE_USER)
                 .build();
     }
