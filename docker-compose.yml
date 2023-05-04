@@ -22,8 +22,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://teamguu-database.c7vs4xjkmcxm.ap-northeast-2.rds.amazonaws.com:3306/teamguu-database
-      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_URL: jdbc:mysql://teamguu-database.c7vs4xjkmcxm.ap-northeast-2.rds.amazonaws.com:3306/teamguu
+      SPRING_DATASOURCE_USERNAME: teamguu
       SPRING_DATASOURCE_PASSWORD: teamguu!
     depends_on:
 #      - mysql
