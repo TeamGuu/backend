@@ -44,7 +44,7 @@ public class MemberService {
 
     public void changeProfileImageToBasic() {
         Member currentMember = getCurrentMember();
-        String deleteProfileImageUrl = getCurrentMember().getProfileImageUrl();
+        String deleteProfileImageUrl = currentMember.getProfileImageUrl();
         currentMember.changeProfileImageUrl("basic_profile.png");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
     }
