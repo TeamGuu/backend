@@ -4,7 +4,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://teamguu-database.c7vs4xjkmcxm.ap-northeast-2.rds.amazonaws.com:3306/teamguu-database
     username: admin
-    password: 1234
+    password: teamguu!
 
   jpa:
     open-in-view: false
