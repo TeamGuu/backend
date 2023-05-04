@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import teamguu.backend.domain.matchinginfo.dto.CreateMatchingInfoRequestDto;
@@ -40,11 +40,8 @@ public class MatchingInfoController {
     @Operation(summary = "Get simple match info list API", description = "just send request")
     @ResponseStatus(OK)
     @GetMapping("/simple")
-    public Response getSimpleMatchingInfoList(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        /**
-         * TODO page, size 프론트 분들과 논의
-         * TODO page, size parameter 형식이 아니라 Dto 형식으로 받아도 되나?
-         */
+    @PageableAsQueryParam
+    public Response getSimpleMatchingInfoList(Pageable pageable) {
         return success(SUCCESS_TO_GET_MATCH_INFO, matchingInfoService.getSimpleMatchingInfoList(pageable));
     }
 
