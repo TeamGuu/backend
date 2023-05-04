@@ -48,10 +48,10 @@ public class MatchingInfoController {
         return success(SUCCESS_TO_GET_MATCH_INFO, matchingInfoService.getSimpleMatchingInfoList(pageable));
     }
 
-    @Operation(summary = "Get match info list API", description = "put match id what you want to see")
+    @Operation(summary = "Get match info API", description = "put match id what you want to see")
     @ResponseStatus(OK)
     @GetMapping()
-    public Response getMatchingInfoList(Long matchingInfoId) {
+    public Response getMatchingInfo(Long matchingInfoId) {
         return success(SUCCESS_TO_GET_MATCH_INFO, matchingInfoService.getMatchingInfo(matchingInfoId));
     }
 
