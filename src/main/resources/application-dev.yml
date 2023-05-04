@@ -2,8 +2,8 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/teamguu
-    username: teamguu
+    url: jdbc:mysql://teamguu-database.c7vs4xjkmcxm.ap-northeast-2.rds.amazonaws.com:3306/teamguu-database
+    username: admin
     password: 1234
 
   jpa:
