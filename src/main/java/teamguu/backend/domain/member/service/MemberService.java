@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import teamguu.backend.config.aws.AmazonS3Service;
 import teamguu.backend.config.redis.RedisService;
 import teamguu.backend.domain.member.dto.member.EditMemberInfoRequestDto;
+import teamguu.backend.domain.member.dto.member.GetMemberInfoResponseDto;
 import teamguu.backend.domain.member.entity.Member;
 import teamguu.backend.exception.situation.MemberNotFoundException;
 import teamguu.backend.domain.member.repository.MemberRepository;
@@ -21,6 +22,11 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final RedisService redisService;
     private final AmazonS3Service amazonS3Service;
+
+
+    public GetMemberInfoResponseDto getCurrentMemberInfo() {
+        return GetMemberInfoResponseDto.toDto(getCurrentMember());
+    }
 
     public void deleteMember() {
         Member currentMember = getCurrentMember();
@@ -38,14 +44,13 @@ public class MemberService {
 
     public void changeProfileImageToBasic() {
         Member currentMember = getCurrentMember();
-        String deleteProfileImageUrl = currentMember.getProfileImageUrl();
+        String deleteProfileImageUrl = getCurrentMember().getProfileImageUrl();
         currentMember.changeProfileImageUrl("basic_profile.png");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
     }
 
     public void editMemberInfo(EditMemberInfoRequestDto editMemberRequestDto) {
-        Member currentMember = getCurrentMember();
-        currentMember.editMember(editMemberRequestDto.getName(), editMemberRequestDto.getPhone(), editMemberRequestDto.getBirth());
+        getCurrentMember().editMember(editMemberRequestDto.getName(), editMemberRequestDto.getPhone(), editMemberRequestDto.getBirth());
     }
 
     @Transactional(readOnly = true)

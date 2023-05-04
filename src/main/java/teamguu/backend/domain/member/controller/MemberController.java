@@ -28,6 +28,13 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @Operation(summary = "Get current member info API")
+    @ResponseStatus(OK)
+    @GetMapping("")
+    public Response getCurrentMemberInfo() {
+        return success(SUCCESS_TO_GET_CURRENT_MEMBER_INFO, memberService.getCurrentMemberInfo());
+    }
+
     @Operation(summary = "Edit member API", description = "put info what you want to change")
     @ResponseStatus(OK)
     @PatchMapping("")
