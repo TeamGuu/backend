@@ -10,11 +10,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.filter.CorsFilter;
 import teamguu.backend.config.jwt.JwtAccessDeniedHandler;
 import teamguu.backend.config.jwt.JwtAuthenticationEntryPoint;
 import teamguu.backend.config.jwt.JwtProvider;
 import teamguu.backend.config.jwt.JwtSecurityConfig;
+
+import java.util.List;
 
 
 @Configuration
@@ -47,6 +50,15 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
+
+                .and()
+                .cors().configurationSource(request -> {
+                    var cors = new CorsConfiguration();
+                    cors.setAllowedOrigins(List.of("http://localhost:3000"));
+                    cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
+                    cors.setAllowedHeaders(List.of("*"));
+                    return cors;
+                })
 
                 .and()
                 .apply(new JwtSecurityConfig(jwtProvider))
