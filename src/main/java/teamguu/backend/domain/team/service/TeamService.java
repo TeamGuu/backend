@@ -41,8 +41,8 @@ public class TeamService {
     }
 
     @Transactional(readOnly = true)
-    public List<SimpleTeamInfoResponseDto> getSimpleTeamInfoList(Long captainId) {
-        return teamRepository.findTeamsByCaptainId(captainId)
+    public List<SimpleTeamInfoResponseDto> getSimpleTeamInfoList(Member captain) {
+        return teamRepository.findTeamsByCaptain(captain)
                 .stream()
                 .map(SimpleTeamInfoResponseDto::from)
                 .collect(toList());

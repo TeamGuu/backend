@@ -1,6 +1,8 @@
 package teamguu.backend.domain.matchinginfo.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +14,6 @@ import teamguu.backend.domain.matchinginfo.repository.MatchingInfoRepository;
 import teamguu.backend.domain.team.entity.Team;
 import teamguu.backend.exception.situation.MatchingInfoNotFoundException;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,10 +28,12 @@ public class MatchingInfoService {
     }
 
     @Transactional(readOnly = true)
-    public List<SimpleMatchingInfoResponseDto> getSimpleMatchingInfoList(Pageable pageable) {
-        return matchingInfoRepository.findAll(pageable).stream()
+    public Page<SimpleMatchingInfoResponseDto> getSimpleMatchingInfoList(Pageable pageable) {
+        return new PageImpl<>(matchingInfoRepository.findAll(pageable).get()
                 .map(SimpleMatchingInfoResponseDto::from)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()),
+                pageable,
+                matchingInfoRepository.findAll(pageable).getTotalElements());
     }
 
     @Transactional(readOnly = true)
