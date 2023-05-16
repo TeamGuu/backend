@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Builder
-public class Stadium extends EntityDateInfo {
+public class Stadium {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

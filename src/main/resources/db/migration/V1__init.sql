@@ -45,8 +45,6 @@ create table matching_info (
 
 create table stadium (
                          stadium_id bigint not null auto_increment,
-                         created_at varchar(255),
-                         updated_at varchar(255),
                          name varchar(255),
                          image_url varchar(255),
                          phone varchar(255),

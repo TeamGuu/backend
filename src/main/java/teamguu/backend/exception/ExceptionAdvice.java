@@ -139,7 +139,7 @@ public class ExceptionAdvice {
     // 요청한 팀을 찾을 수 없음
     @ExceptionHandler(TeamNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
-    public Response teamNotFoundException(TeamNotFoundException e) {
+    public Response teamNotFoundException() {
         return failure(NOT_FOUND, "요청한 팀을 찾을 수 없습니다.");
     }
 
@@ -147,7 +147,7 @@ public class ExceptionAdvice {
     // 파일이 비어있음
     @ExceptionHandler(EmptyFileException.class)
     @ResponseStatus(NOT_FOUND)
-    public Response emptyFileException(EmptyFileException e) {
+    public Response emptyFileException() {
         return failure(NOT_FOUND, "파일이 비어있습니다.");
     }
 
@@ -155,7 +155,15 @@ public class ExceptionAdvice {
     // 요청한 매칭 공고문을 찾을 수 없음
     @ExceptionHandler(MatchingInfoNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
-    public Response matchingInfoNotFoundException(MatchingInfoNotFoundException e) {
+    public Response matchingInfoNotFoundException() {
         return failure(NOT_FOUND, "요청한 매칭 공고문을 찾을 수 없습니다.");
+    }
+
+    // 404 응답
+    // 요청한 경기장을 찾을 수 없음
+    @ExceptionHandler(StadiumNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public Response stadiumNotFoundException() {
+        return failure(NOT_FOUND, "요청한 경기장을 찾을 수 없습니다.");
     }
 }
