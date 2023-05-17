@@ -24,4 +24,9 @@ public class SuccessMessage {
     public static final String SUCCESS_TO_CHANGE_MATCH_STATUS = "매칭 공고문 상태를 변경하는데 성공했습니다.";
     public static final String SUCCESS_TO_DELETE_MATCH = "매칭 공고문을 삭제하는데 성공했습니다.";
     public static final String SUCCESS_TO_GET_STADIUM_INFO = "경기장 정보를 가져오는데 성공했습니다.";
+    public static final String SUCCESS_TO_RESERVE_STADIUM = "경기장 예약에 성공했습니다.";
+    public static final String SUCCESS_TO_CANCEL_RESERVATION = "경기장 예약을 취소하는데 성공했습니다.";
+    public static final String SUCCESS_TO_GET_RESERVATION_INFOS = "경기장의 예약 정보 목록을 가져오는데 성공했습니다.";
+
+
 }

@@ -166,4 +166,12 @@ public class ExceptionAdvice {
     public Response stadiumNotFoundException() {
         return failure(NOT_FOUND, "요청한 경기장을 찾을 수 없습니다.");
     }
+
+    // 404 응답
+    // 요청한 매칭 공고문을 찾을 수 없음
+    @ExceptionHandler(ReservationInfoNotFondException.class)
+    @ResponseStatus(NOT_FOUND)
+    public Response reservationInfoNotFoundException(ReservationInfoNotFondException e) {
+        return failure(NOT_FOUND, "요청한 예약 정보를 찾을 수 없습니다.");
+    }
 }

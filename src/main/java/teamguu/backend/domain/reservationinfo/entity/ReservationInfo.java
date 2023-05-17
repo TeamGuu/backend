@@ -29,6 +29,5 @@ public class ReservationInfo extends EntityDateInfo {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "stadium_id")
     private Stadium stadium;
-
     private String date;
 }
