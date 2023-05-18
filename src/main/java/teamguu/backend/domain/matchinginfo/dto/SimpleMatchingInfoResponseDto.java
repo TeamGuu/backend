@@ -17,17 +17,11 @@ import teamguu.backend.domain.team.entity.Team;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SimpleMatchingInfoResponseDto {
 
-    @Schema(description = "매칭 공고문 ID")
     private Long id;
-    @Schema(description = "간단한 팀 정보")
     private SimpleTeamInfoResponseDto simpleTeamInfo;
-    @Schema(description = "매칭 희망 지역")
     private String place;
-    @Schema(description = "매칭 희망 일시")
     private String date;
-    @Schema(description = "매칭 공고 제목")
     private String title;
-    @Schema(description = "매칭 공고 상태")
     private String status;
 
     public static SimpleMatchingInfoResponseDto from(MatchingInfo matchingInfo) {

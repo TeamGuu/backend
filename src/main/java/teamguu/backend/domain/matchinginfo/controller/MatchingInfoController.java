@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import teamguu.backend.domain.matchinginfo.dto.CreateMatchingInfoRequestDto;
 import teamguu.backend.domain.matchinginfo.service.MatchingInfoService;
@@ -15,6 +14,7 @@ import teamguu.backend.response.Response;
 
 import javax.validation.Valid;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import static teamguu.backend.response.Response.success;
 import static teamguu.backend.response.SuccessMessage.*;
@@ -30,14 +30,14 @@ public class MatchingInfoController {
     private final TeamService teamService;
 
     @Operation(summary = "Create match API", description = "put your match info to create")
-    @ResponseStatus(OK)
+    @ResponseStatus(CREATED)
     @PostMapping()
     public Response createMatchingInfo(@Valid @RequestBody CreateMatchingInfoRequestDto createMatchingInfoRequestDto, Long teamId) {
         matchingInfoService.createMatchingInfo(createMatchingInfoRequestDto, teamService.findTeam(teamId));
         return success(SUCCESS_TO_CREATE_MATCH);
     }
 
-    @Operation(summary = "Get simple match info list API", description = "just send request")
+    @Operation(summary = "Get simple match info list API", description = "put page info what you want")
     @ResponseStatus(OK)
     @GetMapping("/simple")
     @PageableAsQueryParam

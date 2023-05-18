@@ -65,7 +65,7 @@ public class AuthController {
     }
 
     @Operation(summary = "Reissue API", description = "put your token info which including access token and refresh token.")
-    @ResponseStatus(OK)
+    @ResponseStatus(CREATED)
     @PostMapping("/reissue")
     public Response reissue(@RequestBody TokenRequestDto tokenRequestDto) {
         return success(SUCCESS_TO_REISSUE, authService.reissue(tokenRequestDto));

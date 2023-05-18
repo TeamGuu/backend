@@ -12,18 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfig {
 
-//    @Bean
-//    public OpenAPI openAPI() {
-//        Info info = new Info()
-//                .title("TeamGuu API")
-//                .version("v1.0.0")
-//                .description("for teamguu application frontend");
-//
-//        return new OpenAPI()
-//                .components(new Components())
-//                .info(info);
-//    }
-
     @Bean
     public OpenAPI openAPI() {
 
@@ -31,8 +19,8 @@ public class OpenApiConfig {
 
         Info info = new Info()
                 .title("TeamGuu API")
-                .version("v1.0.0")
-                .description("for teamguu application frontend");
+                .version("v1.2.0")
+                .description("for frontend");
 
         return new OpenAPI()
                 .addSecurityItem(new SecurityRequirement()
