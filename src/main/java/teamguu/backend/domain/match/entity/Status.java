@@ -1,4 +1,4 @@
-package teamguu.backend.domain.matchinginfo.entity;
+package teamguu.backend.domain.match.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

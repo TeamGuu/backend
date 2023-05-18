@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import teamguu.backend.domain.EntityDateInfo;
-import teamguu.backend.domain.reservationinfo.entity.ReservationInfo;
+import teamguu.backend.domain.reservation.entity.Reservation;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class Stadium {
     @Column(name = "stadium_id")
     private Long id;
     @OneToMany(mappedBy = "stadium", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReservationInfo> reservationInfos = new ArrayList<>();
+    private List<Reservation> reservations = new ArrayList<>();
 
     private String name;
     private String imageUrl;

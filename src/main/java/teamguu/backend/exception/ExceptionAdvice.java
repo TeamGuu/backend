@@ -153,9 +153,9 @@ public class ExceptionAdvice {
 
     // 404 응답
     // 요청한 매칭 공고문을 찾을 수 없음
-    @ExceptionHandler(MatchingInfoNotFoundException.class)
+    @ExceptionHandler(MatchInfoNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
-    public Response matchingInfoNotFoundException() {
+    public Response matchInfoNotFoundException() {
         return failure(NOT_FOUND, "요청한 매칭 공고문을 찾을 수 없습니다.");
     }
 

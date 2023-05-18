@@ -1,20 +1,15 @@
 package teamguu.backend.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import teamguu.backend.config.jwt.JwtProvider;
 import teamguu.backend.config.redis.RedisService;
 import teamguu.backend.domain.member.dto.sign.*;
-import teamguu.backend.domain.member.entity.Authority;
 import teamguu.backend.domain.member.entity.Member;
 import teamguu.backend.domain.member.repository.MemberRepository;
-import teamguu.backend.exception.situation.LoginFailureException;
 import teamguu.backend.exception.situation.UsernameAlreadyExistsException;
 
 import javax.transaction.Transactional;

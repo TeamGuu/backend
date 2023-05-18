@@ -16,12 +16,11 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class StadiumService {
 
     private final StadiumRepository stadiumRepository;
 
-    public Page<SimpleStadiumInfoResponseDto> getSimpleStadiumInfoList(Pageable pageable) {
+    public Page<SimpleStadiumInfoResponseDto> getSimpleStadiumInfos(Pageable pageable) {
         return new PageImpl<>(stadiumRepository.findAll(pageable).get()
                 .map(SimpleStadiumInfoResponseDto::from)
                 .collect(Collectors.toList()),
@@ -31,11 +30,10 @@ public class StadiumService {
     }
 
     public StadiumInfoResponseDto getStadiumInfo(Long stadiumId) {
-        return StadiumInfoResponseDto.from(findStadium(stadiumId));
+        return StadiumInfoResponseDto.from(getStadium(stadiumId));
     }
 
-    public Stadium findStadium(Long stadiumId) {
-        return stadiumRepository.findById(stadiumId)
-                .orElseThrow(StadiumNotFoundException::new);
+    public Stadium getStadium(Long stadiumId) {
+        return stadiumRepository.findById(stadiumId).orElseThrow(StadiumNotFoundException::new);
     }
 }

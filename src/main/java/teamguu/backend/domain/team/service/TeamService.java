@@ -36,7 +36,7 @@ public class TeamService {
     }
 
     public TeamInfoResponseDto getTeamInfo(Long teamId) {
-        return TeamInfoResponseDto.from(findTeam(teamId));
+        return TeamInfoResponseDto.from(teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new));
     }
 
     public List<SimpleTeamInfoResponseDto> getSimpleTeamInfos(Member captain) {
@@ -48,26 +48,28 @@ public class TeamService {
 
     @Transactional
     public void editTeamInfo(EditTeamInfoRequestDto editTeamInfoRequestDto, Long teamId) {
-        Team foundTeam = findTeam(teamId);
+        Team foundTeam = getTeam(teamId);
         validateDuplicateByName(editTeamInfoRequestDto, foundTeam);
         foundTeam.editTeam(editTeamInfoRequestDto.getName(), editTeamInfoRequestDto.getHistory(),
                 editTeamInfoRequestDto.getIntro(), editTeamInfoRequestDto.getPlayerInfo());
     }
 
     public void deleteTeam(Long teamId) {
-        Team foundTeam = findTeam(teamId);
+        Team foundTeam = getTeam(teamId);
         deleteLogoImageIfExits(foundTeam);
         teamRepository.delete(foundTeam);
     }
 
+    @Transactional
     public String changeLogoImageToNew(MultipartFile logoImage, Long teamId){
-        Team foundTeam = findTeam(teamId);
+        Team foundTeam = getTeam(teamId);
         deleteLogoImageIfExits(foundTeam);
         return foundTeam.changeLogoImageUrl(amazonS3Service.uploadFile(logoImage));
     }
 
+    @Transactional
     public void changeLogoImageToBasic(Long teamId) {
-        Team foundTeam = findTeam(teamId);
+        Team foundTeam = getTeam(teamId);
         String deleteLogoImageUrl = foundTeam.getLogoImageUrl();
         if (deleteLogoImageUrl.equals("basic_team.png")) {
             throw new AlreadyBasicImageException();
@@ -77,7 +79,7 @@ public class TeamService {
         amazonS3Service.deleteFile(deleteLogoImageUrl);
     }
 
-    public Team findTeam(Long teamId) {
+    public Team getTeam(Long teamId) {
         return teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new);
     }
 
