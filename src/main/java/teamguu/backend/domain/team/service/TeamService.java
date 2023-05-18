@@ -39,7 +39,7 @@ public class TeamService {
         return TeamInfoResponseDto.from(findTeam(teamId));
     }
 
-    public List<SimpleTeamInfoResponseDto> getSimpleTeamInfoList(Member captain) {
+    public List<SimpleTeamInfoResponseDto> getSimpleTeamInfos(Member captain) {
         return teamRepository.findTeamsByCaptain(captain)
                 .stream()
                 .map(SimpleTeamInfoResponseDto::from)
