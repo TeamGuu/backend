@@ -12,6 +12,7 @@ import teamguu.backend.domain.team.dto.SimpleTeamInfoResponseDto;
 import teamguu.backend.domain.team.dto.TeamInfoResponseDto;
 import teamguu.backend.domain.team.entity.Team;
 import teamguu.backend.domain.team.repository.TeamRepository;
+import teamguu.backend.exception.situation.AlreadyBasicImageException;
 import teamguu.backend.exception.situation.TeamNameAlreadyExistsException;
 import teamguu.backend.exception.situation.TeamNotFoundException;
 
@@ -22,7 +23,6 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class TeamService {
 
     private final TeamRepository teamRepository;
@@ -35,12 +35,10 @@ public class TeamService {
         teamRepository.save(createTeamRequestDto.toEntity(captain));
     }
 
-    @Transactional(readOnly = true)
     public TeamInfoResponseDto getTeamInfo(Long teamId) {
         return TeamInfoResponseDto.from(findTeam(teamId));
     }
 
-    @Transactional(readOnly = true)
     public List<SimpleTeamInfoResponseDto> getSimpleTeamInfoList(Member captain) {
         return teamRepository.findTeamsByCaptain(captain)
                 .stream()
@@ -48,10 +46,11 @@ public class TeamService {
                 .collect(toList());
     }
 
+    @Transactional
     public void editTeamInfo(EditTeamInfoRequestDto editTeamInfoRequestDto, Long teamId) {
-        Team findTeam = findTeam(teamId);
-        validateDuplicateByName(editTeamInfoRequestDto, findTeam);
-        findTeam.editTeam(editTeamInfoRequestDto.getName(), editTeamInfoRequestDto.getHistory(),
+        Team foundTeam = findTeam(teamId);
+        validateDuplicateByName(editTeamInfoRequestDto, foundTeam);
+        foundTeam.editTeam(editTeamInfoRequestDto.getName(), editTeamInfoRequestDto.getHistory(),
                 editTeamInfoRequestDto.getIntro(), editTeamInfoRequestDto.getPlayerInfo());
     }
 
@@ -63,19 +62,21 @@ public class TeamService {
 
     public String changeLogoImageToNew(MultipartFile logoImage, Long teamId){
         Team foundTeam = findTeam(teamId);
-        String uploadedLogoImageUrl = amazonS3Service.uploadFile(logoImage);
         deleteLogoImageIfExits(foundTeam);
-        return foundTeam.changeLogoImageUrl(uploadedLogoImageUrl);
+        return foundTeam.changeLogoImageUrl(amazonS3Service.uploadFile(logoImage));
     }
 
     public void changeLogoImageToBasic(Long teamId) {
         Team foundTeam = findTeam(teamId);
         String deleteLogoImageUrl = foundTeam.getLogoImageUrl();
+        if (deleteLogoImageUrl.equals("basic_team.png")) {
+            throw new AlreadyBasicImageException();
+        }
+
         foundTeam.changeLogoImageUrl("basic_team.png");
         amazonS3Service.deleteFile(deleteLogoImageUrl);
     }
 
-    @Transactional(readOnly = true)
     public Team findTeam(Long teamId) {
         return teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new);
     }

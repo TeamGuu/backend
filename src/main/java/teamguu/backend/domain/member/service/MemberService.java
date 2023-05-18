@@ -11,6 +11,7 @@ import teamguu.backend.config.redis.RedisService;
 import teamguu.backend.domain.member.dto.member.EditMemberInfoRequestDto;
 import teamguu.backend.domain.member.dto.member.GetMemberInfoResponseDto;
 import teamguu.backend.domain.member.entity.Member;
+import teamguu.backend.exception.situation.AlreadyBasicImageException;
 import teamguu.backend.exception.situation.MemberNotFoundException;
 import teamguu.backend.domain.member.repository.MemberRepository;
 
@@ -44,6 +45,10 @@ public class MemberService {
     public void changeProfileImageToBasic() {
         Member currentMember = getCurrentMember();
         String deleteProfileImageUrl = currentMember.getProfileImageUrl();
+        if (deleteProfileImageUrl.equals("basic_profile.png")) {
+            throw new AlreadyBasicImageException();
+        }
+
         currentMember.changeProfileImageUrl("basic_profile.png");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
     }

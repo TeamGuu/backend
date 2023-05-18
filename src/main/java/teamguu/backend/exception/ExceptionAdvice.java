@@ -168,10 +168,18 @@ public class ExceptionAdvice {
     }
 
     // 404 응답
-    // 요청한 매칭 공고문을 찾을 수 없음
+    // 요청한 예약 정보를 찾을 수 없음
     @ExceptionHandler(ReservationInfoNotFondException.class)
     @ResponseStatus(NOT_FOUND)
     public Response reservationInfoNotFoundException() {
         return failure(NOT_FOUND, "요청한 예약 정보를 찾을 수 없습니다.");
+    }
+
+    // 400 응답
+    // 기본 이미지로 변경할 수 없음
+    @ExceptionHandler(AlreadyBasicImageException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public Response alreadyBasicImageException() {
+        return failure(BAD_REQUEST, "기본 이미지로 변경할 수 없습니다.");
     }
 }
