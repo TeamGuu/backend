@@ -9,6 +9,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import teamguu.backend.domain.member.entity.Authority;
+import teamguu.backend.domain.member.entity.Member;
 
 
 @Data
@@ -39,4 +42,16 @@ public class SignUpRequestDto {
     @Pattern(regexp = "^(19[0-9][0-9]|20\\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$", message = "생년월일은 하이픈(-)을 포함해야 합니다.")
     @Schema(description = "생년월일", defaultValue = "2000-01-01")
     private String birth;
+
+    public Member toEntity(PasswordEncoder passwordEncoder) {
+        return Member.builder()
+                .username(this.getUsername())
+                .password(passwordEncoder.encode(this.getPassword()))
+                .name(this.getName())
+                .phone(this.getPhone())
+                .birth(this.getBirth())
+                .profileImageUrl("basic_profile.png")
+                .authority(Authority.ROLE_USER)
+                .build();
+    }
 }

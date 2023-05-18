@@ -1,7 +1,9 @@
 package teamguu.backend.domain.member.dto.member;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import teamguu.backend.domain.member.entity.Member;
 
 @AllArgsConstructor
