@@ -34,7 +34,7 @@ public class StadiumService {
         return StadiumInfoResponseDto.from(findStadium(stadiumId));
     }
 
-    private Stadium findStadium(Long stadiumId) {
+    public Stadium findStadium(Long stadiumId) {
         return stadiumRepository.findById(stadiumId)
                 .orElseThrow(StadiumNotFoundException::new);
     }
