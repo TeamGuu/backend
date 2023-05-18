@@ -24,7 +24,7 @@ public class MatchingInfo extends EntityDateInfo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
-
+    // TODO 생각해보니 MatchingInfo 에 sports 컬럼이 있을 필요가 있나?! team 으로 알 수 있지 않나?
     @Enumerated(EnumType.STRING)
     private Sports sports;
     private String place;

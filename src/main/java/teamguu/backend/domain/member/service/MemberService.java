@@ -23,7 +23,6 @@ public class MemberService {
     private final RedisService redisService;
     private final AmazonS3Service amazonS3Service;
 
-
     public GetMemberInfoResponseDto getCurrentMemberInfo() {
         return GetMemberInfoResponseDto.toDto(getCurrentMember());
     }
