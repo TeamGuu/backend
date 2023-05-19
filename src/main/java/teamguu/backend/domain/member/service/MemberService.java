@@ -11,12 +11,12 @@ import teamguu.backend.config.redis.RedisService;
 import teamguu.backend.domain.member.dto.member.EditMemberInfoRequestDto;
 import teamguu.backend.domain.member.dto.member.GetMemberInfoResponseDto;
 import teamguu.backend.domain.member.entity.Member;
+import teamguu.backend.exception.situation.AlreadyBasicImageException;
 import teamguu.backend.exception.situation.MemberNotFoundException;
 import teamguu.backend.domain.member.repository.MemberRepository;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -30,36 +30,40 @@ public class MemberService {
     public void deleteMember() {
         Member currentMember = getCurrentMember();
         redisService.deleteValues("RT: " + currentMember.getUsername());
-        deleteProfileImageIfExits(currentMember);
+        deleteProfileImageIfExists(currentMember);
         memberRepository.delete(currentMember);
     }
 
+    @Transactional
     public String changeProfileImageToNew(MultipartFile profileImage){
         Member currentMember = getCurrentMember();
-        String uploadedProfileImageUrl = amazonS3Service.uploadFile((profileImage));
-        deleteProfileImageIfExits(currentMember);
-        return currentMember.changeProfileImageUrl(uploadedProfileImageUrl);
+        deleteProfileImageIfExists(currentMember);
+        return currentMember.changeProfileImageUrl(amazonS3Service.uploadFile((profileImage)));
     }
 
+    @Transactional
     public void changeProfileImageToBasic() {
         Member currentMember = getCurrentMember();
         String deleteProfileImageUrl = currentMember.getProfileImageUrl();
+        if (deleteProfileImageUrl.equals("basic_profile.png")) {
+            throw new AlreadyBasicImageException();
+        }
+
         currentMember.changeProfileImageUrl("basic_profile.png");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
     }
 
+    @Transactional
     public void editMemberInfo(EditMemberInfoRequestDto editMemberRequestDto) {
         getCurrentMember().editMember(editMemberRequestDto.getName(), editMemberRequestDto.getPhone(), editMemberRequestDto.getBirth());
     }
 
-    @Transactional(readOnly = true)
     public Member getCurrentMember() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return memberRepository.findByUsername(authentication.getName())
+        return memberRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(MemberNotFoundException::new);
     }
 
-    private void deleteProfileImageIfExits(Member memberToCheck) {
+    private void deleteProfileImageIfExists(Member memberToCheck) {
         if (!memberToCheck.getProfileImageUrl().equals("basic_profile.png")) {
             amazonS3Service.deleteFile(memberToCheck.getProfileImageUrl());
         }

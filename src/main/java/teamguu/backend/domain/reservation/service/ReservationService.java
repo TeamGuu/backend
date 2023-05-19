@@ -1,11 +1,11 @@
-package teamguu.backend.domain.reservationinfo.service;
+package teamguu.backend.domain.reservation.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamguu.backend.domain.reservationinfo.dto.ReservationInfoResponseDto;
-import teamguu.backend.domain.reservationinfo.dto.ReserveRequestDto;
-import teamguu.backend.domain.reservationinfo.repository.ReservationInfoRepository;
+import teamguu.backend.domain.reservation.dto.ReservationInfoResponseDto;
+import teamguu.backend.domain.reservation.dto.ReserveRequestDto;
+import teamguu.backend.domain.reservation.repository.ReservationRepository;
 import teamguu.backend.domain.stadium.entity.Stadium;
 import teamguu.backend.domain.team.entity.Team;
 import teamguu.backend.exception.situation.ReservationInfoNotFondException;
@@ -15,26 +15,22 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ReservationInfoService {
+public class ReservationService {
 
-    private final ReservationInfoRepository reservationInfoRepository;
+    private final ReservationRepository reservationRepository;
 
-    @Transactional
     public void reserve(ReserveRequestDto reserveRequestDto, Team team, Stadium stadium) {
-        reservationInfoRepository.save(reserveRequestDto.toEntity(team, stadium));
+        reservationRepository.save(reserveRequestDto.toEntity(team, stadium));
     }
 
-    @Transactional(readOnly = true)
     public List<ReservationInfoResponseDto> getReservationInfos(Stadium stadium) {
-        return stadium.getReservationInfos().stream()
+        return reservationRepository.findReservationsByStadium(stadium).stream()
                 .map(ReservationInfoResponseDto::from)
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public void cancelReservation(Long reservationInfoId) {
-       reservationInfoRepository.delete(reservationInfoRepository.findById(reservationInfoId)
+    public void cancelReservation(Long reservationId) {
+       reservationRepository.delete(reservationRepository.findById(reservationId)
                .orElseThrow(ReservationInfoNotFondException::new));
     }
-
 }

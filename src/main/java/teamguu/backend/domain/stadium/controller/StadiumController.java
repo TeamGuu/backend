@@ -14,6 +14,7 @@ import teamguu.backend.domain.stadium.service.StadiumService;
 import teamguu.backend.response.Response;
 
 import static org.springframework.http.HttpStatus.OK;
+import static teamguu.backend.response.SuccessMessage.SUCCESS_TO_GET_SIMPLE_STADIUM_INFOS;
 import static teamguu.backend.response.SuccessMessage.SUCCESS_TO_GET_STADIUM_INFO;
 
 @Slf4j
@@ -25,15 +26,15 @@ public class StadiumController {
 
     private final StadiumService stadiumService;
 
-    @Operation(summary = "Get simple stadium info list API", description = "just send request.")
+    @Operation(summary = "Get simple stadium info list API", description = "put page info what you want")
     @ResponseStatus(OK)
     @PageableAsQueryParam
     @GetMapping("/simple")
-    public Response getSimpleStadiumInfoList(Pageable pageable) {
-        return Response.success(SUCCESS_TO_GET_STADIUM_INFO, stadiumService.getSimpleStadiumInfoList(pageable));
+    public Response getSimpleStadiumInfos(Pageable pageable) {
+        return Response.success(SUCCESS_TO_GET_SIMPLE_STADIUM_INFOS, stadiumService.getSimpleStadiumInfos(pageable));
     }
 
-    @Operation(summary = "Get stadium info API", description = "put stadium id what you want to see.")
+    @Operation(summary = "Get stadium info API", description = "put stadium id what you want to see")
     @ResponseStatus(OK)
     @GetMapping()
     public Response getStadiumInfo(Long stadiumId) {

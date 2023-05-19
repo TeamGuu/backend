@@ -32,9 +32,9 @@ public class AuthController {
     private final MemberService memberService;
     private final AuthService authService;
 
-    @Operation(summary = "Validate duplicate API", description = "put your validate duplicate info")
+    @Operation(summary = "Validate duplicate API", description = "put your sign up info to validate duplicate.")
     @ResponseStatus(OK)
-    @PostMapping("/validate-duplicate")
+    @PostMapping("/duplicate")
     public Response validateDuplicateUsername(@Valid @RequestBody ValidateSignUpRequestDto validateSignUpRequestDto) {
         authService.validateDuplicate(validateSignUpRequestDto);
         return success(SUCCESS_TO_VALIDATE_DUPLICATE);
@@ -44,7 +44,7 @@ public class AuthController {
     @ResponseStatus(CREATED)
     @PostMapping("/sign-up")
     public Response signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
-        Member member = authService.signUp(signUpRequestDto);
+        authService.signUp(signUpRequestDto);
         return success(SUCCESS_TO_SIGN_UP);
     }
 
@@ -55,13 +55,12 @@ public class AuthController {
         return success(SUCCESS_TO_SIGN_IN, authService.signIn(req));
     }
 
-    @Operation(summary = "Logout API", description = "this is logout")
+    @Operation(summary = "Logout API", description = "this is logout.")
     @PostMapping("/logout")
     @ResponseStatus(OK)
     public Response logout() {
-        Member currentMember = memberService.getCurrentMember();
-        authService.logout(currentMember);
-        return success(SUCCESS_TO_SIGN_OUT);
+        authService.logout(memberService.getCurrentMember());
+        return success(SUCCESS_TO_LOGOUT);
     }
 
     @Operation(summary = "Reissue API", description = "put your token info which including access token and refresh token.")

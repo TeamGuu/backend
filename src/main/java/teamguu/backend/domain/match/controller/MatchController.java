@@ -1,4 +1,4 @@
-package teamguu.backend.domain.matchinginfo.controller;
+package teamguu.backend.domain.match.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import teamguu.backend.domain.matchinginfo.dto.CreateMatchingInfoRequestDto;
-import teamguu.backend.domain.matchinginfo.service.MatchingInfoService;
+import teamguu.backend.domain.match.dto.CreateMatchRequestDto;
+import teamguu.backend.domain.match.service.MatchService;
 import teamguu.backend.domain.team.service.TeamService;
 import teamguu.backend.response.Response;
 
@@ -24,16 +24,16 @@ import static teamguu.backend.response.SuccessMessage.*;
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/matches")
 @Tag(name = "Match", description = "Match API Document")
-public class MatchingInfoController {
+public class MatchController {
 
-    private final MatchingInfoService matchingInfoService;
+    private final MatchService matchService;
     private final TeamService teamService;
 
     @Operation(summary = "Create match API", description = "put your match info to create")
     @ResponseStatus(CREATED)
     @PostMapping()
-    public Response createMatchingInfo(@Valid @RequestBody CreateMatchingInfoRequestDto createMatchingInfoRequestDto, Long teamId) {
-        matchingInfoService.createMatchingInfo(createMatchingInfoRequestDto, teamService.findTeam(teamId));
+    public Response createMatchInfo(@Valid @RequestBody CreateMatchRequestDto createMatchRequestDto, Long teamId) {
+        matchService.createMatch(createMatchRequestDto, teamService.getTeam(teamId));
         return success(SUCCESS_TO_CREATE_MATCH);
     }
 
@@ -41,30 +41,30 @@ public class MatchingInfoController {
     @ResponseStatus(OK)
     @GetMapping("/simple")
     @PageableAsQueryParam
-    public Response getSimpleMatchingInfoList(Pageable pageable) {
-        return success(SUCCESS_TO_GET_MATCH_INFO, matchingInfoService.getSimpleMatchingInfoList(pageable));
+    public Response getSimpleMatchInfos(Pageable pageable) {
+        return success(SUCCESS_TO_GET_SIMPLE_MATCH_INFOS, matchService.getSimpleMatchInfos(pageable));
     }
 
     @Operation(summary = "Get match info API", description = "put match id what you want to see")
     @ResponseStatus(OK)
     @GetMapping()
-    public Response getMatchingInfo(Long matchingInfoId) {
-        return success(SUCCESS_TO_GET_MATCH_INFO, matchingInfoService.getMatchingInfo(matchingInfoId));
+    public Response getMatchInfo(Long matchId) {
+        return success(SUCCESS_TO_GET_MATCH_INFO, matchService.getMatchInfo(matchId));
     }
 
     @Operation(summary = "Delete match info API", description = "put match id what you want to delete")
     @ResponseStatus(OK)
     @DeleteMapping()
-    public Response deleteMatchingInfo(Long matchingInfoId) {
-        matchingInfoService.deleteMatchingInfo(matchingInfoId);
+    public Response deleteMatch(Long matchId) {
+        matchService.deleteMatch(matchId);
         return success(SUCCESS_TO_DELETE_MATCH);
     }
 
     @Operation(summary = "Change match status to complete API", description = "put match id what you want to change")
     @ResponseStatus(OK)
     @PatchMapping("/status")
-    public Response changeMatchingInfoStatusToComplete(Long matchingInfoId) {
-        matchingInfoService.changeMatchingInfoStatusToComplete(matchingInfoId);
+    public Response changeMatchStatusToComplete(Long matchId) {
+        matchService.changeMatchStatusToComplete(matchId);
         return success(SUCCESS_TO_CHANGE_MATCH_STATUS);
     }
 }

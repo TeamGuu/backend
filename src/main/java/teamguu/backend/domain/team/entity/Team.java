@@ -5,9 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamguu.backend.domain.EntityDateInfo;
-import teamguu.backend.domain.matchinginfo.entity.MatchingInfo;
+import teamguu.backend.domain.match.entity.Match;
 import teamguu.backend.domain.member.entity.Member;
-import teamguu.backend.domain.reservationinfo.entity.ReservationInfo;
+import teamguu.backend.domain.reservation.entity.Reservation;
 
 import javax.persistence.*;
 
@@ -31,9 +31,9 @@ public class Team extends EntityDateInfo {
     @JoinColumn(name = "member_id")
     private Member captain;
     @OneToMany(mappedBy = "team", cascade = ALL, orphanRemoval = true)
-    private List<ReservationInfo> reservationInfos = new ArrayList<>();
+    private List<Reservation> reservations = new ArrayList<>();
     @OneToMany(mappedBy = "team", cascade = ALL, orphanRemoval = true)
-    private List<MatchingInfo> matchingInfos = new ArrayList<>();
+    private List<Match> matches = new ArrayList<>();
 
     private String name;
     @Enumerated(EnumType.STRING)

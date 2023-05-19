@@ -1,5 +1,6 @@
 package teamguu.backend.domain.stadium.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,7 @@ import teamguu.backend.domain.stadium.entity.Stadium;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SimpleStadiumInfoResponseDto {
 
     private Long id;

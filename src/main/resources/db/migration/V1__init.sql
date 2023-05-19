@@ -29,18 +29,17 @@ create table team (
                       primary key (team_id)
 ) engine=InnoDB;
 
-create table matching_info (
-                               matching_info_id bigint not null auto_increment,
+create table `match` (
+                               match_id bigint not null auto_increment,
                                created_at varchar(255),
                                updated_at varchar(255),
                                team_id bigint,
-                               sports varchar(255),
                                date varchar(255),
                                place varchar(255),
                                title varchar(255),
                                content varchar(255),
                                status varchar(255),
-                               primary key (matching_info_id)
+                               primary key (match_id)
 ) engine=InnoDB;
 
 create table stadium (
@@ -54,14 +53,14 @@ create table stadium (
                          primary key (stadium_id)
 ) engine=InnoDB;
 
-create table reservation_info (
-                                  reservation_info_id bigint not null auto_increment,
+create table reservation (
+                                  reservation_id bigint not null auto_increment,
                                   created_at varchar(255),
                                   updated_at varchar(255),
                                   team_id bigint,
                                   stadium_id bigint,
                                   date varchar(255),
-                                  primary key (reservation_info_id)
+                                  primary key (reservation_id)
 ) engine=InnoDB;
 
 alter table team
@@ -69,17 +68,17 @@ alter table team
     foreign key (member_id)
     references member (member_id);
 
-alter table matching_info
+alter table `match`
     add constraint FK26gwd99fver09mu1e2gvgx1ay
     foreign key (team_id)
     references team (team_id);
 
-alter table reservation_info
+alter table reservation
     add constraint FKegfvapj972404cgsi3g6dcm5s
     foreign key (team_id)
     references team (team_id);
 
-alter table reservation_info
+alter table reservation
     add constraint FK9yli4hmkq5elrbyqfwa1psfhp
     foreign key (stadium_id)
     references stadium (stadium_id);

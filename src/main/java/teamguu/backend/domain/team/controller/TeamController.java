@@ -48,9 +48,8 @@ public class TeamController {
     @Operation(summary = "Get simple team info list API", description = "just send request")
     @ResponseStatus(OK)
     @GetMapping("/simple")
-    public Response getSimpleTeamInfoList() {
-        // TODO Team paging 처리는 필요 없겠지? 용병 기능이 없으니까 자신의 팀이 그렇게 많을 리가 없을 듯
-        return success(SUCCESS_TO_GET_TEAM_INFO, teamService.getSimpleTeamInfoList(memberService.getCurrentMember()));
+    public Response getSimpleTeamInfos() {
+        return success(SUCCESS_TO_GET_SIMPLE_TEAM_INFOS, teamService.getSimpleTeamInfos(memberService.getCurrentMember()));
     }
 
     @Operation(summary = "Edit team API", description = "put info and team id what you want to change")

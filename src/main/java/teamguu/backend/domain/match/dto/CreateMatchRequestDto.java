@@ -1,13 +1,12 @@
-package teamguu.backend.domain.matchinginfo.dto;
+package teamguu.backend.domain.match.dto;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import teamguu.backend.domain.matchinginfo.entity.MatchingInfo;
-import teamguu.backend.domain.matchinginfo.entity.Status;
-import teamguu.backend.domain.team.entity.Sports;
+import teamguu.backend.domain.match.entity.Match;
+import teamguu.backend.domain.match.entity.Status;
 import teamguu.backend.domain.team.entity.Team;
 
 import javax.validation.constraints.NotBlank;
@@ -15,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateMatchingInfoRequestDto {
+public class CreateMatchRequestDto {
 
     @NotBlank(message = "매칭 희망 장소를 입력해주세요.")
     @Schema(description = "매칭 희망 장소", defaultValue = "경기도 용인시")
@@ -32,10 +31,9 @@ public class CreateMatchingInfoRequestDto {
     @Schema(description = "매칭 공고문 내용", defaultValue = "실력은 중상입니다. 장소는 편하신 곳으로 같이 정해봐요! 채팅 Come on~")
     private String content;
 
-    public MatchingInfo toEntity(Team team) {
-        return MatchingInfo.builder()
+    public Match toEntity(Team team) {
+        return Match.builder()
                 .team(team)
-                .sports(team.getSports())
                 .place(this.place)
                 .date(this.date)
                 .title(this.title)
