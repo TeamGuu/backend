@@ -62,10 +62,6 @@ public class SecurityConfig {
                 })
 
                 .and()
-                .authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-
-                .and()
                 .apply(new JwtSecurityConfig(jwtProvider))
 
                 .and()
