@@ -48,7 +48,6 @@ public class MemberService {
         if (deleteProfileImageUrl.equals("basic_profile.png")) {
             throw new AlreadyBasicImageException();
         }
-
         currentMember.changeProfileImageUrl("basic_profile.png");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
     }
