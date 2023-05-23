@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.CorsFilter;
 import teamguu.backend.config.jwt.JwtAccessDeniedHandler;
 import teamguu.backend.config.jwt.JwtAuthenticationEntryPoint;
@@ -54,11 +55,15 @@ public class SecurityConfig {
                 .and()
                 .cors().configurationSource(request -> {
                     var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("http://localhost:3000"));
+                    cors.setAllowedOrigins(List.of("http://localhost:3000", "https://team-guu-frontend.vercel.app/"));
                     cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
                     cors.setAllowedHeaders(List.of("*"));
                     return cors;
                 })
+
+                .and()
+                .authorizeRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 
                 .and()
                 .apply(new JwtSecurityConfig(jwtProvider))
