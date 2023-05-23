@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .and()
                 .cors().configurationSource(request -> {
                     var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("http://localhost:3000", "https://team-guu-frontend.vercel.app/"));
+                    cors.setAllowedOrigins(List.of("https://team-guu-frontend.vercel.app/"));
                     cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
                     cors.setAllowedHeaders(List.of("*"));
                     return cors;
