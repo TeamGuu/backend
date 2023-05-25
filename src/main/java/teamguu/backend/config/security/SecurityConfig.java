@@ -33,7 +33,7 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/api-docs/**",
             "/api",
-            "/api/auth/validate-duplicate",
+            "/api/auth/duplicate",
             "/api/auth/sign-up",
             "/api/auth/sign-in"
     };
@@ -46,20 +46,14 @@ public class SecurityConfig {
     @Bean
     protected SecurityFilterChain config(HttpSecurity http) throws Exception {
         return http
+                .cors()
+
+                .and()
                 .csrf().disable()
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
-
-                .and()
-                .cors().configurationSource(request -> {
-                    var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("http://localhost:3000"));
-                    cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
-                    cors.setAllowedHeaders(List.of("*"));
-                    return cors;
-                })
 
                 .and()
                 .apply(new JwtSecurityConfig(jwtProvider))

@@ -15,7 +15,10 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("https://www.teamguu.o-r.kr");
+        config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedOrigin("https://team-guu-frontend.vercel.app");
+        config.addAllowedOrigin("https://team-guu-frontend.vercel.app/");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
