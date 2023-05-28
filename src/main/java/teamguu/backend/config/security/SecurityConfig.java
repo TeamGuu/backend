@@ -4,21 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.CorsFilter;
 import teamguu.backend.config.jwt.JwtAccessDeniedHandler;
 import teamguu.backend.config.jwt.JwtAuthenticationEntryPoint;
 import teamguu.backend.config.jwt.JwtProvider;
 import teamguu.backend.config.jwt.JwtSecurityConfig;
-
-import java.util.List;
 
 
 @Configuration
@@ -33,7 +28,7 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/api-docs/**",
             "/api",
-            "/api/auth/validate-duplicate",
+            "/api/auth/duplicate",
             "/api/auth/sign-up",
             "/api/auth/sign-in"
     };
@@ -46,20 +41,14 @@ public class SecurityConfig {
     @Bean
     protected SecurityFilterChain config(HttpSecurity http) throws Exception {
         return http
+                .cors()
+
+                .and()
                 .csrf().disable()
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
-
-                .and()
-                .cors().configurationSource(request -> {
-                    var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("http://localhost:3000"));
-                    cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
-                    cors.setAllowedHeaders(List.of("*"));
-                    return cors;
-                })
 
                 .and()
                 .apply(new JwtSecurityConfig(jwtProvider))

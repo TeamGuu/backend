@@ -1,14 +1,19 @@
 version: '3.8'
 services:
+  redis:
+    image: ${REDIS_IMAGE}  # TODO 배포 시 .env 추가
+    ports:
+      - "${REDIS_LOCAL_PORT}:${REDIS_SERVER_PORT}"  # TODO 배포 시 .env 추가
 
   app:
+    image: ${APP_IMAGE}  # TODO 배포 시 .env 추가
     build: .
     restart: always
     ports:
       - "${APP_LOCAL_PORT}:${APP_SERVER_PORT}"
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}  # TODO 배포 시 .env 추가
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     env_file:
