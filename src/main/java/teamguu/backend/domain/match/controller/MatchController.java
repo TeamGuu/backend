@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import teamguu.backend.domain.match.dto.CreateMatchRequestDto;
 import teamguu.backend.domain.match.service.MatchService;
+import teamguu.backend.domain.member.service.MemberService;
 import teamguu.backend.domain.team.service.TeamService;
 import teamguu.backend.response.Response;
 
@@ -28,6 +29,7 @@ public class MatchController {
 
     private final MatchService matchService;
     private final TeamService teamService;
+    private final MemberService memberService;
 
     @Operation(summary = "Create match API", description = "put your match info to create")
     @ResponseStatus(CREATED)
@@ -58,6 +60,13 @@ public class MatchController {
     public Response deleteMatch(Long matchId) {
         matchService.deleteMatch(matchId);
         return success(SUCCESS_TO_DELETE_MATCH);
+    }
+
+    @Operation(summary = "Get Simple current member info API", description = "chat the person who you want to chat with")
+    @ResponseStatus(OK)
+    @GetMapping("/sender")
+    public Response getSenderInfo() {  // TODO 채팅 보낸 사용자가 소속된 팀이 있는지 검증
+        return success(SUCCESS_TO_GET_CURRENT_MEMBER_INFO, memberService.getSimpleCurrentMemberInfo());
     }
 
     @Operation(summary = "Change match status to complete API", description = "put match id what you want to change")

@@ -44,8 +44,7 @@ public class AuthController {
     @ResponseStatus(CREATED)
     @PostMapping("/sign-up")
     public Response signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
-        authService.signUp(signUpRequestDto);
-        return success(SUCCESS_TO_SIGN_UP);
+        return success(SUCCESS_TO_SIGN_UP, authService.signUp(signUpRequestDto));
     }
 
     @Operation(summary = "Sign in API", description = "put your sign in info.")

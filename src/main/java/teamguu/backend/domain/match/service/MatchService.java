@@ -34,9 +34,9 @@ public class MatchService {
                 matchRepository.findAll(pageable).getTotalElements());
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true)  // Match -> Team -> Captain 관계에서는 @EntityGraph 적용 불가
     public MatchInfoResponseDto getMatchInfo(Long matchId) {
-        return MatchInfoResponseDto.from(matchRepository.findById(matchId).orElseThrow(MatchInfoNotFoundException::new));
+        return MatchInfoResponseDto.from(getMatch(matchId));
     }
 
     public void deleteMatch(Long matchId) {

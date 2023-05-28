@@ -1,13 +1,13 @@
 package teamguu.backend.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import teamguu.backend.config.aws.AmazonS3Service;
 import teamguu.backend.config.redis.RedisService;
+import teamguu.backend.domain.member.dto.member.SimpleCurrentMemberInfoResponseDto;
 import teamguu.backend.domain.member.dto.member.EditMemberInfoRequestDto;
 import teamguu.backend.domain.member.dto.member.GetMemberInfoResponseDto;
 import teamguu.backend.domain.member.entity.Member;
@@ -60,6 +60,10 @@ public class MemberService {
     public Member getCurrentMember() {
         return memberRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(MemberNotFoundException::new);
+    }
+
+    public SimpleCurrentMemberInfoResponseDto getSimpleCurrentMemberInfo() {
+        return SimpleCurrentMemberInfoResponseDto.from(getCurrentMember());
     }
 
     private void deleteProfileImageIfExists(Member memberToCheck) {

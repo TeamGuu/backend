@@ -7,12 +7,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import teamguu.backend.config.jwt.JwtProvider;
 import teamguu.backend.config.redis.RedisService;
+import teamguu.backend.domain.member.dto.member.SimpleCurrentMemberInfoResponseDto;
 import teamguu.backend.domain.member.dto.sign.*;
 import teamguu.backend.domain.member.entity.Member;
 import teamguu.backend.domain.member.repository.MemberRepository;
 import teamguu.backend.exception.situation.UsernameAlreadyExistsException;
 
-import javax.transaction.Transactional;
 import java.time.Duration;
 
 @Service
@@ -29,9 +29,9 @@ public class AuthService {
         validateDuplicateByUsername(validateSignUpRequestDto);
     }
 
-    public void signUp(SignUpRequestDto req) {
+    public SimpleCurrentMemberInfoResponseDto signUp(SignUpRequestDto req) {
         validateSignUpInfo(req);
-        memberRepository.save(req.toEntity(passwordEncoder));
+        return SimpleCurrentMemberInfoResponseDto.from(memberRepository.save(req.toEntity(passwordEncoder)));
     }
 
     public TokenResponseDto signIn(LoginRequestDto req) {
