@@ -64,9 +64,9 @@ public class MatchController {
 
     @Operation(summary = "Get Simple current member info API", description = "chat the person who you want to chat with")
     @ResponseStatus(OK)
-    @GetMapping("/sender")
-    public Response getSenderInfo() {  // TODO 채팅 보낸 사용자가 소속된 팀이 있는지 검증
-        return success(SUCCESS_TO_GET_CURRENT_MEMBER_INFO, memberService.getSimpleCurrentMemberInfo());
+    @GetMapping("/chat")
+    public Response getChatMemberInfo(Long matchId) {  // TODO 채팅 보낸 사용자가 소속된 팀이 있는지 검증
+        return success(SUCCESS_TO_GET_CHAT_MEMBER_INFO, matchService.getChatMemberInfo(matchId, memberService.getCurrentMember()));
     }
 
     @Operation(summary = "Change match status to complete API", description = "put match id what you want to change")

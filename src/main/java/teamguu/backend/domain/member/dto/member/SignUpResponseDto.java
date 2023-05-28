@@ -12,11 +12,11 @@ import teamguu.backend.domain.member.entity.Member;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SimpleCurrentMemberInfoResponseDto {
+public class SignUpResponseDto {
     private Long id;
 
-    public static SimpleCurrentMemberInfoResponseDto from(Member member) {
-        return SimpleCurrentMemberInfoResponseDto.builder()
+    public static SignUpResponseDto from(Member member) {
+        return SignUpResponseDto.builder()
                 .id(member.getId())
                 .build();
     }

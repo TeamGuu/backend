@@ -7,10 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamguu.backend.domain.match.dto.CreateMatchRequestDto;
+import teamguu.backend.domain.match.dto.GetChatMemberInfoResponseDto;
 import teamguu.backend.domain.match.dto.MatchInfoResponseDto;
 import teamguu.backend.domain.match.dto.SimpleMatchInfoResponseDto;
 import teamguu.backend.domain.match.entity.Match;
 import teamguu.backend.domain.match.repository.MatchRepository;
+import teamguu.backend.domain.member.entity.Member;
 import teamguu.backend.domain.team.entity.Team;
 import teamguu.backend.exception.situation.MatchInfoNotFoundException;
 
@@ -46,6 +48,11 @@ public class MatchService {
     @Transactional
     public void changeMatchStatusToComplete(Long matchId) {
        getMatch(matchId).changeStatusToComplete();
+    }
+
+    @Transactional(readOnly = true)
+    public GetChatMemberInfoResponseDto getChatMemberInfo(Long matchId, Member sender) {
+        return GetChatMemberInfoResponseDto.from(getMatch(matchId), sender);
     }
 
     public Match getMatch(Long matchId) {

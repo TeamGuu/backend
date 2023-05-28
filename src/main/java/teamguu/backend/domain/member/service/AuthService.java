@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import teamguu.backend.config.jwt.JwtProvider;
 import teamguu.backend.config.redis.RedisService;
-import teamguu.backend.domain.member.dto.member.SimpleCurrentMemberInfoResponseDto;
+import teamguu.backend.domain.member.dto.member.SignUpResponseDto;
 import teamguu.backend.domain.member.dto.sign.*;
 import teamguu.backend.domain.member.entity.Member;
 import teamguu.backend.domain.member.repository.MemberRepository;
@@ -29,9 +29,9 @@ public class AuthService {
         validateDuplicateByUsername(validateSignUpRequestDto);
     }
 
-    public SimpleCurrentMemberInfoResponseDto signUp(SignUpRequestDto req) {
+    public SignUpResponseDto signUp(SignUpRequestDto req) {
         validateSignUpInfo(req);
-        return SimpleCurrentMemberInfoResponseDto.from(memberRepository.save(req.toEntity(passwordEncoder)));
+        return SignUpResponseDto.from(memberRepository.save(req.toEntity(passwordEncoder)));
     }
 
     public TokenResponseDto signIn(LoginRequestDto req) {
