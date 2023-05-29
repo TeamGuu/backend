@@ -37,10 +37,10 @@ public class ReservationService {
                .orElseThrow(ReservationInfoNotFondException::new));
     }
 
-    private void validateDuplicateReservation(String ReservationToCheck, List<Reservation> findReservations) {
-        for (Reservation reservation : findReservations) {
-            if (reservation.getDate().equals(ReservationToCheck)) {
-                throw new ReservationAlreadyExistsException(ReservationToCheck);
+    private void validateDuplicateReservation(String dateToCheck, List<Reservation> foundReservations) {
+        for (Reservation reservation : foundReservations) {
+            if (reservation.getDate().equals(dateToCheck)) {
+                throw new ReservationAlreadyExistsException(dateToCheck);
             }
         }
     }
