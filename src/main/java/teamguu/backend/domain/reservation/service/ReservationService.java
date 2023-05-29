@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamguu.backend.domain.reservation.dto.ReservationInfoResponseDto;
 import teamguu.backend.domain.reservation.dto.ReserveRequestDto;
+import teamguu.backend.domain.reservation.entity.Reservation;
 import teamguu.backend.domain.reservation.repository.ReservationRepository;
 import teamguu.backend.domain.stadium.entity.Stadium;
 import teamguu.backend.domain.team.entity.Team;
+import teamguu.backend.exception.situation.ReservationAlreadyExistsException;
 import teamguu.backend.exception.situation.ReservationInfoNotFondException;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
 
     public void reserve(ReserveRequestDto reserveRequestDto, Team team, Stadium stadium) {
+        validateDuplicateReservation(reserveRequestDto.getDate(), reservationRepository.findReservationsByStadium(stadium));
         reservationRepository.save(reserveRequestDto.toEntity(team, stadium));
     }
 
@@ -32,5 +35,13 @@ public class ReservationService {
     public void cancelReservation(Long reservationId) {
        reservationRepository.delete(reservationRepository.findById(reservationId)
                .orElseThrow(ReservationInfoNotFondException::new));
+    }
+
+    private void validateDuplicateReservation(String ReservationToCheck, List<Reservation> findReservations) {
+        for (Reservation reservation : findReservations) {
+            if (reservation.getDate().equals(ReservationToCheck)) {
+                throw new ReservationAlreadyExistsException(ReservationToCheck);
+            }
+        }
     }
 }

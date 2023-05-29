@@ -29,9 +29,9 @@ public class AuthService {
         validateDuplicateByUsername(validateSignUpRequestDto);
     }
 
-    public SignUpResponseDto signUp(SignUpRequestDto req) {
+    public void signUp(SignUpRequestDto req) {
         validateSignUpInfo(req);
-        return SignUpResponseDto.from(memberRepository.save(req.toEntity(passwordEncoder)));
+        memberRepository.save(req.toEntity(passwordEncoder));
     }
 
     public TokenResponseDto signIn(LoginRequestDto req) {
