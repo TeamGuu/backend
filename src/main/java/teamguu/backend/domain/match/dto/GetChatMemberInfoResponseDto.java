@@ -15,13 +15,13 @@ import teamguu.backend.domain.member.entity.Member;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetChatMemberInfoResponseDto {
 
-    private Long receiverId;
-    private Long senderId;
+    private String receiverUsername;
+    private String senderUsername;
 
     public static GetChatMemberInfoResponseDto from(Match match, Member sender) {
         return GetChatMemberInfoResponseDto.builder()
-                .receiverId(match.getTeam().getCaptain().getId())
-                .senderId(sender.getId())
+                .receiverUsername(match.getTeam().getCaptain().getUsername())
+                .senderUsername(sender.getUsername())
                 .build();
     }
 }

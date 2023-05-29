@@ -182,4 +182,12 @@ public class ExceptionAdvice {
     public Response alreadyBasicImageException() {
         return failure(BAD_REQUEST, "기본 이미지로 변경할 수 없습니다.");
     }
+
+    // 409 응답
+    // reservation date 중복
+    @ExceptionHandler(ReservationAlreadyExistsException.class)
+    @ResponseStatus(CONFLICT)
+    public Response reservationAlreadyExistsException(ReservationAlreadyExistsException e) {
+        return failure(CONFLICT, e.getMessage() + "은 중복된 예약 정보 입니다.");
+    }
 }
