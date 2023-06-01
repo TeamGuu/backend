@@ -26,11 +26,19 @@ jobs:
     - name: checkout
       uses: actions/checkout@master
       
+    - name: create env and secure file
+      run: |
+        touch .env
+        echo "${{ secrets.ENV_VARS }}" >> .env
+        cd src/main/resources
+        touch secure.properties
+        echo "${{ secrets.SECURE_VARS }}" >> secure.properties
+      
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: ./gradlew clean build 
+      run: ./gradlew clean build
 
     - name: Image build and push
       run: |
