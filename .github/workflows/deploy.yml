@@ -14,6 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    
+    - name: Change directory to my project
+      run: cd teamguu-backend
+      
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
 
     - name: Build with Gradle
       run: ./gradlew clean build 
