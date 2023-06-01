@@ -15,6 +15,11 @@ jobs:
     
     steps:
     
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 17.0.6-amzn
+    
     - name: checkout
       uses: actions/checkout@master
       
