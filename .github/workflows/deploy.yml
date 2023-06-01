@@ -16,7 +16,7 @@ jobs:
     steps:
     
     - name: Change directory to my project
-      run: cd teamguu-backend
+      run: cd /home/runner/work/teamguu-backend/teamguu-backend
       
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
